@@ -130,4 +130,5 @@ dist
 .pnp.*
 
 #Secrets.js (API KEY)
+# .gitignore
 scr/secrets.js
