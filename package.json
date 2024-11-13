@@ -1,0 +1,15 @@
+{
+  "name": "movie-api-rest-javascript",
+  "version": "1.0.0",
+  "description": "Movie Gallery es una aplicación que permite a los usuarios explorar un catálogo de películas, guardar sus películas favoritas y subir información sobre nuevas películas. La aplicación está construida en **JavaScript** y **HTML/CSS** para el frontend y se conecta a una API de películas para obtener y almacenar los datos.",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "(https://github.com/Hosmmer/movie-api-rest-javascript.git)"
+  },
+  "author": "Hosmmer Pinto :)",
+  "license": "MIT"
+}
