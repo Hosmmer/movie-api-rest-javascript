@@ -111,25 +111,21 @@ function geneMovieTitles(categoryId) {
     headerCategoryTitle.innerHTML = genre;
 
 }
-function createCategoryMovie(movies, container, query) {
-    container.innerHTML = ''; // Limpia el contenedor antes de renderizar
+function createCategory(movies, container) {
+    container.innerHTML = ''; // Limpiar la sección antes de mostrar los resultados
 
-    if (movies.length === 0) {
-        container.innerHTML = `<p>No se encontraron resultados para "${query}".</p>`;
-        return;
-    }
-
+    // Crear una tarjeta para cada película
     movies.forEach(movie => {
         const movieCard = document.createElement('div');
         movieCard.classList.add('movie-card');
         movieCard.innerHTML = `
             <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title}" />
             <h3>${movie.title}</h3>
+            <p>${movie.release_date}</p>
         `;
         container.appendChild(movieCard);
     });
 }
-
 
 // Mapeo de categorías con caracteres especiales
 const categoriesToReplace = {

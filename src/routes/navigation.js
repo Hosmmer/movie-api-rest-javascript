@@ -1,4 +1,7 @@
-// Función para configurar los eventos de navegación
+// Verificar si historyArr ya existe en localStorage
+let historyArr = JSON.parse(localStorage.getItem('historyArr')) || [];
+
+// Configurar eventos de navegación
 function setupNavigationEvents() {
     const buttons = [
         { id: 'homeBtn', hash: '#home' },
@@ -14,10 +17,11 @@ function setupNavigationEvents() {
                 if (button.id === 'searchFormBtn') {
                     const searchQuery = searchFormInput.value.trim(); // Obtener el valor del input
                     if (searchQuery) {
-                        location.hash = '#search=' + encodeURIComponent(searchQuery); // Actualizar el hash con el valor de búsqueda
+                        const newHash = '#search=' + encodeURIComponent(searchQuery);
+                        navigateTo(newHash, true); // Usa `true` para agregar al historial
                     }
                 } else {
-                    navigateTo(button.hash); // Navegar a la ruta correspondiente
+                    navigateTo(button.hash, true); // Usa `true` para agregar al historial
                 }
             });
         } else {
@@ -29,7 +33,15 @@ function setupNavigationEvents() {
     if (arrowBodySearchBtn) {
         arrowBodySearchBtn.addEventListener('click', () => {
             if (!arrowBodySearchBtn.classList.contains('inactive')) {
-                history.back(); // Retroceder en el historial
+                if (historyArr.length > 1) {
+                    historyArr.pop(); // Elimina solo el último elemento
+                    const previousHash = historyArr[historyArr.length - 1] || '#home';
+                    navigateTo(previousHash, false); // Navegar al hash anterior
+                    updateHistoryStorage(); // Actualizar en localStorage
+                } else {
+                    console.warn('El historial está vacío. Navegando al home.');
+                    navigateTo('#home', false); // Navegar al home si no hay más historial
+                }
             } else {
                 console.warn('El botón de retroceso está inactivo.');
             }
@@ -38,20 +50,22 @@ function setupNavigationEvents() {
 }
 
 // Función para manejar la navegación a una ruta específica
-function navigateTo(hash) {
-    // Evita navegar si ya estamos en la misma ruta
+function navigateTo(hash, addToHistory = false) {
     if (location.hash !== hash) {
-        history.pushState({ page: hash }, '', hash); // Actualizar el historial y el hash
+        if (addToHistory) {
+            history.pushState({ page: hash }, '', hash); // Agrega al historial del navegador
+            historyArr.push(hash); // Agrega la ruta al historial personalizado
+            updateHistoryStorage(); // Guardar en localStorage
+        } else {
+            history.replaceState({ page: hash }, '', hash); // Reemplaza el estado actual
+        }
         handleNavigation(); // Manejar la navegación para renderizar la página adecuada
-    } else {
-        console.warn(`Ya estás en la ruta ${hash}.`);
     }
 }
 
 // Función para manejar la navegación dependiendo del hash en la URL
-// Función para manejar la navegación dependiendo del hash en la URL
 function handleNavigation() {
-    const hash = location.hash || '#home'; // Asegura un valor predeterminado en caso de que no haya hash
+    const hash = location.hash || '#home'; // Valor predeterminado
     console.log(`Hash actual: ${hash}`);
 
     switch (true) {
@@ -63,7 +77,7 @@ function handleNavigation() {
                 geneMovieTitles(categoryId); // Lógica para mostrar películas por categoría
             } else {
                 console.error('ID de categoría no válido.');
-                navigateTo('#home');
+                navigateTo('#home', false);
             }
             break;
 
@@ -78,12 +92,11 @@ function handleNavigation() {
             if (searchQuery) {
                 console.log('Navegando a la página de búsqueda con término:', searchQuery);
                 setPageConfig(pageConfigs.searchPage); // Configura la página de búsqueda
-                searchPage(); // Llama a la función de búsqueda
+                searchPage(searchQuery); // Llama a la función de búsqueda
             } else {
                 console.warn('No se proporcionó un término de búsqueda.');
             }
             break;
-
 
         case hash === '#movie':
             console.log('Navegando a la página de detalles de película.');
@@ -93,12 +106,15 @@ function handleNavigation() {
 
         default:
             console.warn('Ruta no reconocida. Navegando a la página predeterminada (home).');
-            navigateTo('#home'); // Redirigir al home si la ruta no es válida
+            navigateTo('#home', false); // Redirigir al home si la ruta no es válida
             break;
     }
 }
 
-
+// Función para actualizar el historial en localStorage
+function updateHistoryStorage() {
+    localStorage.setItem('historyArr', JSON.stringify(historyArr));
+}
 
 // Configurar eventos y navegación al cargar la página
 document.addEventListener('DOMContentLoaded', () => {
@@ -114,11 +130,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // Escuchar cambios en el historial (retroceso o avance)
     window.addEventListener('popstate', () => {
         console.log('Retroceso o avance en el historial detectado.');
+        if (historyArr.length > 0) {
+            historyArr.pop(); // Sincronizar eliminando el último elemento
+            updateHistoryStorage();
+        }
         handleNavigation(); // Manejar la navegación en retrocesos o avances
     });
 });
-
-
-
-// setPageConfig(pageConfigs.searchPage);
-//     searchPage();

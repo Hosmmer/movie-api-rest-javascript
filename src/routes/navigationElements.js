@@ -66,7 +66,7 @@ const pageConfigs = {
         headerSection: { background: '' },
         arrowBodySearch: { inactive: false },
         headerTitle: { inactive: false },
-        headerCategoryTitle: { inactive: false },
+        headerCategoryTitle: { inactive: true },
         searchForm: { inactive: false },
         trendingPreviewSection: { inactive: true },
         categoriesPreviewSection: { inactive: false },
@@ -74,7 +74,7 @@ const pageConfigs = {
         genericSection: { inactive: false },
         movieDetailSection: { inactive: true },
         footerNone: { inactive: false },
-        logoHeader: { inactive: true }
+        logoHeader: { inactive: false }
     },
     trendsPage: {
         categoriesPreviewList: { inactive: false },

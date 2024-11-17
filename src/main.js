@@ -104,7 +104,7 @@ const getMoviesSeachAll = async (query) => {
 
         // Renderiza las películas
         if (moviesSearch.length > 0) {
-            createCategoryMovie(moviesSearch, genericSection, query);
+            createCategory(moviesSearch, genericSection, query);
         } else {
             console.warn('No se encontraron películas para el término:', query);
             genericSection.innerHTML = `<p>No se encontraron resultados para "${query}".</p>`;
