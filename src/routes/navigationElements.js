@@ -74,19 +74,19 @@ const pageConfigs = {
         genericSection: { inactive: false },
         movieDetailSection: { inactive: true },
         footerNone: { inactive: false },
-        logoHeader: { inactive: false }
+        logoHeader: { inactive: true }
     },
     trendsPage: {
-        categoriesPreviewList: { inactive: true },
+        categoriesPreviewList: { inactive: false },
         headerSection: { background: '' },
-        arrowBodySearch: { inactive: false },
-        headerTitle: { inactive: false },
-        headerCategoryTitle: { inactive: false },
+        arrowBodySearch: { inactive: true },
+        headerTitle: { inactive: true },
+        headerCategoryTitle: { inactive: true },
         searchForm: { inactive: true },
         trendingPreviewSection: { inactive: true },
-        categoriesPreviewSection: { inactive: false },
+        categoriesPreviewSection: { inactive: true },
         titleCategory: { inactive: true },
-        genericSection: { inactive: false },
+        genericSection: { inactive: true },
         movieDetailSection: { inactive: true },
         footerNone: { inactive: false },
         logoHeader: { inactive: true }

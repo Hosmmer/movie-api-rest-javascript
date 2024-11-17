@@ -33,15 +33,14 @@ async function fetchMoviesByCategory(id) {
 }
 
 
-// Función para busqueda de películas por categoría
 async function getMoviesBySearch(query) {
-    const { data } = await api.get('search/movie', {
-        params: {
-            query,
-        }
-    });
-    return data.results;
+    try {
+        const { data } = await api.get('search/movie', { params: { query } });
+        console.log('Resultados obtenidos de la API:', data.results);
+        return data.results;
+    } catch (error) {
+        console.error('Error al buscar películas:', error);
+        return [];
+    }
 }
-
-
 

@@ -1,3 +1,16 @@
+//Funcion para procesar items las cuales seran renderizados
+
+
+function processItems(items, container, callback) {
+    container.innerHTML = ''; // Limpiar el contenedor antes de agregar los nuevos elementos
+
+    items.forEach(item => {
+        const element = callback(item); // Ejecutar el callback para cada elemento
+        container.appendChild(element); // Agregar el elemento procesado al contenedor
+    });
+}
+
+
 // Función para crear y mostrar las películas
 function createMovies(movies, container) {
     container.innerHTML = '';  // Limpiar el contenedor antes de agregar los nuevos elementos
@@ -23,9 +36,7 @@ function createMovies(movies, container) {
 
 // Función para renderizar las categorías en el DOM
 function renderCategories(categories, container) {
-    container.innerHTML = "";  // Limpiar el contenedor antes de agregar las nuevas categorías
-
-    categories.forEach(category => {
+    processItems(categories, container, category => {
         const categoryContainer = document.createElement('div');
         categoryContainer.classList.add('category-container');
 
@@ -40,11 +51,11 @@ function renderCategories(categories, container) {
         categoryTitle.addEventListener('click', () => {
             location.hash = `#category=${category.id}-${category.name}`;
         });
+
         categoryContainer.appendChild(categoryTitle);
-        container.appendChild(categoryContainer);
+        return categoryContainer;
     });
 }
-
 
 
 
@@ -93,15 +104,32 @@ function createCategory(movies, container, categoryId) {
 function geneMovieTitles(categoryId) {
     setPageConfig(pageConfigs.categoriesPage); // Configurar la página de categorías
     getMoviesByCategory(categoryId); // Convertir id a número entero
-    console.log('soy la verga', categoryId);
 
     // Limpiar y obtener solo el texto del género
     let cleanedCategory = cleanCategoryName(categoryId);
     const genre = cleanedCategory.split('-')[1]; // Obtener solo el nombre de la categoría
     headerCategoryTitle.innerHTML = genre;
 
-    console.log('aquiii', genre);
 }
+function createCategoryMovie(movies, container, query) {
+    container.innerHTML = ''; // Limpia el contenedor antes de renderizar
+
+    if (movies.length === 0) {
+        container.innerHTML = `<p>No se encontraron resultados para "${query}".</p>`;
+        return;
+    }
+
+    movies.forEach(movie => {
+        const movieCard = document.createElement('div');
+        movieCard.classList.add('movie-card');
+        movieCard.innerHTML = `
+            <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title}" />
+            <h3>${movie.title}</h3>
+        `;
+        container.appendChild(movieCard);
+    });
+}
+
 
 // Mapeo de categorías con caracteres especiales
 const categoriesToReplace = {
@@ -123,3 +151,4 @@ function cleanCategoryName(categoryId) {
 
     return cleanedCategoryName;
 }
+

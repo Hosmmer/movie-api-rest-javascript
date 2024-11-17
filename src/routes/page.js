@@ -23,24 +23,27 @@ function categoriesPage() {
 }
 
 
+// Función principal para la página de búsqueda
+
+function searchPage() {
+    const [_, query] = location.hash.split('='); // Obtén el término de búsqueda desde el hash
+    if (query) {
+        console.log('Buscando películas con el término:', query);
+        getMoviesSeachAll(query); // Llama a la función para manejar la búsqueda y renderizado
+    } else {
+        console.warn('El término de búsqueda está vacío.');
+        const genericSection = document.querySelector('#genericList');
+        if (genericSection) {
+            genericSection.innerHTML = '<p>Por favor ingresa un término de búsqueda.</p>';
+        }
+    }
+}
+
+
 function movieDetailsPage() {
     console.log('Movie Details Page');
     setPageConfig(pageConfigs.movieDetailsPage);
 }
 
-
-
-// Función principal para la página de búsqueda
-
-function searchPage(searchQuery) {
-
-    const searchFormInput = document.querySelector('#searchForm input');
-    if (searchFormInput) {
-        searchFormInput.value = searchQuery;  // Mostrar el término en el input si está en la URL
-    }
-
-    // Llamar a la función para obtener películas con el término
-    getMoviesSearchByCategory(searchQuery); // Asegúrate de que esta función renderice las películas correctamente
-}
 
 

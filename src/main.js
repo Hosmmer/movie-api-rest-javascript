@@ -74,7 +74,7 @@ const getCategoriesPreview = async () => {
 const getMoviesByCategory = async (id) => {
     const categoryId = parseInt(id);
 
- 
+
     // Obtener películas por categoría
     const movies = await fetchMoviesByCategory(categoryId);  // Llamar la API para obtener las películas
 
@@ -88,4 +88,28 @@ const getMoviesByCategory = async (id) => {
 
     // Llamar a la función de renderizado y pasar el id de categoría
     createCategory(movies, genericSection, categoryId);  // Pasar categoryId correctamente
+};
+
+
+const getMoviesSeachAll = async (query) => {
+    try {
+        const moviesSearch = await getMoviesBySearch(query);
+
+        // Selecciona el contenedor donde se renderizarán las películas
+        const genericSection = document.querySelector('#genericList');
+        if (!genericSection) {
+            console.error('No se encontró el contenedor "genericList".');
+            return;
+        }
+
+        // Renderiza las películas
+        if (moviesSearch.length > 0) {
+            createCategoryMovie(moviesSearch, genericSection, query);
+        } else {
+            console.warn('No se encontraron películas para el término:', query);
+            genericSection.innerHTML = `<p>No se encontraron resultados para "${query}".</p>`;
+        }
+    } catch (error) {
+        console.error('Error al obtener películas de búsqueda:', error);
+    }
 };

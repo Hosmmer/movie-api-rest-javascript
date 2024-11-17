@@ -44,7 +44,7 @@
 
 
 body {
-  background-color: var(--purple-black-1);
+  background-color: var(--purple-light-1);
   color: var(--purple-dark-2);
   font-family: var(--font-family-text);
   font-weight: var(--font-weight-text1);
