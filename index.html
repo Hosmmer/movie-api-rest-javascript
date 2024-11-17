@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Dosis:wght@700;800&family=Red+Hat+Display:wght@400;500&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="./src/assets/styles/main.css" />
+
+    <title>AppMovies</title>
+</head>
+
+<body>
+    <header id="header" class="header-container">
+        <img src="./src/assets/img/pngwing.com.png" id="logo-header" class="logo-header"></img>
+        <span class="header-arrow inactive">&lt;</span>
+        <form id="searchForm" class="header-searchForm">
+            <input type="text" placeholder="Vengadores" />
+            <button id="searchFormBtn">🔍</button>
+        </form>
+    </header>
+
+    <section id="trendingPreview" class="trendingPreview-container">
+
+        <div class="trendingPreview-header">
+            <h2 class="trendingPreview-title">Tendencias</h2>
+            <button id="trendsPage" class="trendingPreview-btn">Ver más</button>
+        </div>
+
+        <article class="trendingPreview-movieList">
+        </article>
+    </section>
+
+    <section id="categoriesPreview" class="categoriesPreview-container">
+        <span id="homeBtn" class="header-arrow inactive">&lt;</span>
+        <span id="arrowBodySearch" class="arrow-search inactive">&lt;</span>
+        <h1 class="header-title--categoryView inactive">Acción</h1>
+        <h2 id="title-categorias" class="categoriesPreview-title">Categorías</h2>
+        <article class="categoriesPreview-list">
+
+        </article>
+    </section>
+
+    <section id="genericList" class="genericList-container inactive">
+        <div class="movie-container">
+            <img src="https://image.tmdb.org/t/p/w300/adOzdWS35KAo21r9R4BuFCkLer6.jpg" class="movie-img"
+                alt="Nombre de la película" />
+        </div>
+
+    </section>
+
+    <section id="movieDetail" class="movieDetail-container inactive">
+        <h1 class="movieDetail-title">Deadpool</h1>
+        <span class="movieDetail-score">7.6</span>
+        <p class="movieDetail-description">
+            Wisecracking mercenary Deadpool battles the evil and powerful Cable and other bad guys to save a boy's life.
+        </p>
+
+        <article class="categories-list">
+            <div class="category-container">
+                <h3 id="id28" class="category-title">Romance</h3>
+            </div>
+
+            <div class="category-container">
+                <h3 id="id16" class="category-title">Drama</h3>
+            </div>
+
+            <div class="category-container">
+                <h3 id="id14" class="category-title">Acción</h3>
+            </div>
+        </article>
+
+        <article class="relatedMovies-container">
+            <h2 class="relatedMovies-title">Películas similares</h2>
+
+            <div class="relatedMovies-scrollContainer">
+                <div class="movie-container">
+                    <img src="https://image.tmdb.org/t/p/w300/adOzdWS35KAo21r9R4BuFCkLer6.jpg" class="movie-img"
+                        alt="Nombre de la película" />
+                </div>
+
+                <div class="movie-container">
+                    <img src="https://image.tmdb.org/t/p/w300/adOzdWS35KAo21r9R4BuFCkLer6.jpg" class="movie-img"
+                        alt="Nombre de la película" />
+                </div>
+
+                <div class="movie-container">
+                    <img src="https://image.tmdb.org/t/p/w300/adOzdWS35KAo21r9R4BuFCkLer6.jpg" class="movie-img"
+                        alt="Nombre de la película" />
+                </div>
+            </div>
+        </article>
+    </section>
+
+    <footer class="app-footer">
+        <div class="footer-content">
+            <p class="footer-author">Autor: DevHos</p>
+            <div class="social-icons">
+                <a href="https://twitter.com/tuPerfil" class="icon-link" aria-label="Twitter" target="_blank">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="https://instagram.com/tuPerfil" class="icon-link" aria-label="Instagram" target="_blank">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="https://linkedin.com/in/tuPerfil" class="icon-link" aria-label="LinkedIn" target="_blank">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="./src/utils/nodes.js"></script>
+    <script src="./src/utils/RenderElements.js"></script>
+    <script src="./src/config/enverioments.js"></script>
+    <script src="./src/config/apiConf.js"></script>
+    <script src="./src/main.js"></script>
+    <script src="./src/routes/navigation.js"></script>
+    <script src="./src/routes/navigationElements.js"></script>
+    <script src="./src/routes/navigation.js"></script>
+    <script src="./src/routes/page.js"></script>
+
+
+</body>
+
+</html>
