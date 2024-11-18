@@ -28,18 +28,7 @@ function setupNavigationEvents() {
             console.error(`No se encontró el elemento '${button.id}'. Verifica el ID o el HTML.`);
         }
     });
-    if (arrowBtn) {
-        arrowBtn.addEventListener('click', () => {
-            // Verificar si el botón no está inactivo
-            if (!arrowBtn.classList.contains('inactive')) {
-                console.log('Retrocediendo al home desde detalles de la película');
-                // Navegar directamente al home sin agregar al historial
-                navigateTo('#home', false);  // Eliminar historial previo si es necesario
-            } else {
-                console.warn('El botón de retroceso está inactivo.');
-            }
-        });
-    }
+
 }
 
 // Evento de retroceso en el botón de búsqueda (arrowBodySearchBtn)
@@ -121,7 +110,6 @@ function handleNavigation() {
             console.log('Navegando a la página de tendencias.');
             setPageConfig(pageConfigs.trendsPage);
             trendsPage();
-            trendsTitle();
             break;
 
         case hash.startsWith('#movie='):

@@ -9,7 +9,7 @@ const getTrendingMoviesPreview = async () => {
     }
 
     // Crea y agrega los contenedores de películas usando la función reutilizable
-    createMovies(movies, trendingMoviesPreviewList);
+    createMovies(movies, trendingMoviesPreviewList, true);
 
     // Duplicar el contenido para el efecto de desplazamiento continuo
     const movieContainers = [...trendingMoviesPreviewList.children];
@@ -118,7 +118,7 @@ const getMoviesSeachAll = async (query) => {
 
 const getMoviesTrendingPage = async () => {
     const trendingPageMovies = await TrendingMoviesPage();
-    createCategory(trendingPageMovies, genericSection);
+    createCategory(trendingPageMovies, genericSection, true); // null para no filtrar por categoría
 
 }
 
@@ -169,3 +169,37 @@ const getRelateMoviesId = async (id) => {
         console.error('Error fetching related movies:', error);
     }
 };
+
+
+
+// Función para simular el retraso de carga de las películas
+function loadTrendingMovies() {
+    setTimeout(function () {
+        const movieList = document.querySelector('.trendingPreview-movieList');
+
+        // Eliminar los esqueletos de las películas
+        const skeletons = movieList.querySelectorAll('.skeleton');
+        skeletons.forEach(skeleton => skeleton.remove());
+
+        // Crear y agregar el contenido real de las películas (Ejemplo con imágenes)
+        for (let i = 0; i < 4; i++) {
+            const movie = document.createElement('div');
+            movie.classList.add('movie');
+            movieList.appendChild(movie);
+        }
+
+        // Reemplazar el botón 'Ver más' si es necesario (como ejemplo)
+        const trendsBtn = document.querySelector('.trendingPreview-btn');
+        if (trendsBtn) {
+            trendsBtn.classList.remove('skeleton'); // Eliminar esqueleto del botón
+            trendsBtn.textContent = 'Ver más';
+        }
+    }, 2000); // Simulamos una espera de 2 segundos antes de cargar el contenido real
+}
+
+// Llamar a la función para simular la carga de películas
+loadTrendingMovies();
+
+
+
+

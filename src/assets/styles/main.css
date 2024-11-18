@@ -64,8 +64,8 @@ h1, h2 {
   color: var(--purple-dark-2);
   font-family: var(--font-family-titles);
   font-weight: var(--font-weight-title1);
-  margin: 0;
-  padding: 0;
+  margin: 20px 0;
+  padding:0;
 }
 
 h2 {
@@ -105,6 +105,7 @@ button {
 
 
 
+
 .trendingPreview-container, .categoriesPreview-container {
   margin-top: 48px;
   margin-left: 20px;
@@ -117,10 +118,18 @@ button {
 .movie-container {
   cursor: pointer;
 }
-
-.movie-img {
-  border-radius: 8px;
+.movie-card{
+  display: flex;
+  flex-direction: column;
+  height: 40vh;
+  width: 40vw;
 }
+.movie-card img{
+  border-radius: 8px;
+  width: 40vw;
+
+}
+
 
 .categoriesPreview-list, .categories-list {
   display: flex;
@@ -142,8 +151,8 @@ button {
 
 .header-container--long {
 
-  background-image: url('https://pics.filmaffinity.com/Deadpool-777527803-large.jpg');
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.35) 19.27%, rgba(0, 0, 0, 0) 29.17%), url(https://pics.filmaffinity.com/Deadpool-777527803-large.jpg);
+  background-image: url();
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.35) 19.27%, rgba(0, 0, 0, 0) 29.17%);
   background-size: cover !important;
   height: 480px;
   position: fixed;
@@ -168,14 +177,14 @@ button {
   margin: 15px 0 5px 15px;
   color: var(--purple-medium-2);
   cursor: pointer;
-  display: inline-block;
+  
 }
 .arrow-search {
+
   font-weight: var(--purple-medium-1);
   font-size: 60px;
   color: var(--purple-dark-2);
   cursor: pointer;
-  position: relative;
   bottom: 20px;
   height: 1px;
   height: 10px;
@@ -191,8 +200,18 @@ button {
 }
 
 
-.header-arrow--white {
-  color: var(--purple-light-1);
+.header-arrowContainer--purple{
+  position: absolute;
+   top: 125px;
+   right: 350px;
+  padding: 5px 5px;
+}
+
+
+
+.header-arrow--white{
+  color: white;
+  padding: 25px 20px;
 }
 
 .header-searchForm {
@@ -411,11 +430,10 @@ button {
 /* Generic List (search, trending & category) */
 .genericList-container {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  align-items: flex-end;
+  justify-content: space-around;
   flex-wrap: wrap;
-  padding: 32px 24px;
-  gap: 12px;
+  padding: 42px 24px;
 }
 
 .genericList-container .movie-container {
@@ -599,3 +617,83 @@ footer {
   .icon-link:hover {
     animation: pulse 1s infinite, wave 2s ease-in-out infinite;
   }
+
+
+
+
+
+  /* Estilo para el esqueleto de carga */
+.skeleton {
+  background-color: #e0e0e0;
+  background-image: linear-gradient(90deg, #e0e0e0 25%, #f5f5f5 50%, #e0e0e0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite ease-in-out;
+  border-radius: 8px;
+}
+
+@keyframes loading {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Esqueleto para las películas */
+.movie-skeleton {
+  width: 100%;
+  height: 200px;
+  margin: 10px 0;
+  border-radius: 8px;
+}
+
+/* Estilo para los botones y textos en el header */
+.trendingPreview-btn.skeleton {
+  width: 100px;
+  height: 40px;
+  background-color: #e0e0e0;
+  border-radius: 8px;
+  animation: loading 1.5s infinite ease-in-out;
+}
+
+
+
+/* Esqueleto de texto para el título */
+.header-title--categoryView.skeleton,
+.categoriesPreview-title.skeleton {
+  width: 60%;
+  height: 30px;
+  margin: 10px 0;
+}
+
+/* Esqueleto para el botón */
+.header-arrow.skeleton {
+  width: 50px;
+  height: 30px;
+  margin: 10px 0;
+  border-radius: 50%;
+}
+
+/* Esqueleto de las categorías */
+.category-skeleton {
+  width: 100%;
+  height: 150px;
+  margin: 10px 0;
+  border-radius: 8px;
+}
+
+/* Esqueleto para los íconos o imágenes de las categorías */
+.category-img.skeleton {
+  width: 100%;
+  height: 120px;
+  margin: 10px 0;
+  border-radius: 8px;
+}
+/* Esqueleto de la imagen de la película */
+.movie-img-skeleton {
+  width: 100%;
+  height: 180px;
+  margin: 10px 0;
+  border-radius: 8px;
+}

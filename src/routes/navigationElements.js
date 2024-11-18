@@ -20,8 +20,8 @@ const pageConfigs = {
     homePage: {
         categoriesPreviewList: { inactive: false },
         headerSection: { background: '' },
-        arrowBtn: { inactive: true, classList: 'header-arrow--white' },
-        headerTitle: { inactive: false },
+        headerTitle: { inactive: true },
+        titleCategory: { inactive: false },
         headerCategoryTitle: { inactive: true },
         searchForm: { inactive: false },
         arrowBodySearch: { inactive: true },
@@ -35,8 +35,7 @@ const pageConfigs = {
     categoriesPage: {
         categoriesPreviewList: { inactive: true },
         headerSection: { background: '' },
-        arrowBodySearch: { inactive: false },
-        headerTitle: { inactive: true },
+        arrowBodySearch: { inactive: false, classList: 'header-arrowContainer--purple' }, headerTitle: { inactive: true },
         headerCategoryTitle: { inactive: false },
         titleCategory: { inactive: true },
         searchForm: { inactive: true },
@@ -47,10 +46,11 @@ const pageConfigs = {
         footerNone: { inactive: false },
         logoHeader: { inactive: false }
     },
+
     movieDetailsPage: {
         categoriesPreviewList: { inactive: true },
         headerSection: { background: '', classList: 'header-container--long' },
-        arrowBtn: { inactive: false, classList: 'header-arrow--white' },
+        arrowBodySearch: { inactive: false, classList: 'header-arrow--white' },
         headerTitle: { inactive: true },
         headerCategoryTitle: { inactive: false },
         searchForm: { inactive: true },
@@ -64,7 +64,7 @@ const pageConfigs = {
     searchPage: {
         categoriesPreviewList: { inactive: true },
         headerSection: { background: '' },
-        arrowBodySearch: { inactive: false },
+        arrowBodySearch: { inactive: false, classList: 'header-arrowContainer--purple' }, headerTitle: { inactive: true },
         headerTitle: { inactive: false },
         headerCategoryTitle: { inactive: true },
         searchForm: { inactive: false },
@@ -79,15 +79,11 @@ const pageConfigs = {
     trendsPage: {
         categoriesPreviewList: { inactive: true },
         headerSection: { background: '' },
-        arrowBodySearch: { inactive: false },
-        headerTitle: { inactive: false },
-        headerCategoryTitle: { inactive: true },
+        arrowBodySearch: { inactive: false, classList: 'header-arrowContainer--purple' }, headerTitle: { inactive: true },
         searchForm: { inactive: false },
         trendingPreviewSection: { inactive: true },
-        categoriesPreviewSection: { inactive: false },
-        titleCategory: { inactive: true },
+        categoriesPreviewSection: { inactive: true },
         genericSection: { inactive: false },
-        movieDetailSection: { inactive: true },
         footerNone: { inactive: false },
         logoHeader: { inactive: false }
     }
@@ -101,16 +97,24 @@ function setPageConfig(config) {
         const el = elements[element];
         if (!el) return;
 
+        // Manejar visibilidad
         el.classList.toggle('inactive', inactive || false);
 
+        // Eliminar clases anteriores
+        const allPossibleClasses = ['header-container--long', 'header-arrow--white', 'header-arrowContainer--purple'];
+        allPossibleClasses.forEach(cls => el.classList.remove(cls));
+
+        // Agregar nuevas clases si están definidas
         if (classList) {
             el.classList.add(classList);
-        } else {
-            el.classList.remove('header-container--long', 'header-arrow--white'); // Elimina clases si no están definidas
         }
 
+        // Actualizar estilos dinámicos
         if (background !== undefined) {
             el.style.background = background;
         }
     });
+
+    // Forzar redibujado del DOM
+    document.body.offsetHeight; // Esto asegura que el navegador procese los cambios inmediatamente
 }

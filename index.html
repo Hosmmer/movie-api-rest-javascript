@@ -19,7 +19,7 @@
 <body>
     <header id="header" class="header-container">
         <img src="./src/assets/img/pngwing.com.png" id="logo-header" class="logo-header"></img>
-        <span id="header-arrow" class="header-arrow inactive">&lt;</span>
+        <span id="arrowBodySearch" class="arrow-search inactive">&lt;</span>
         <form id="searchForm" class="header-searchForm">
             <input type="text" placeholder="Buscar..." />
             <button id="searchFormBtn">🔍</button>
@@ -27,33 +27,44 @@
     </header>
 
     <section id="trendingPreview" class="trendingPreview-container">
-
         <div class="trendingPreview-header">
             <h2 class="trendingPreview-title">Tendencias</h2>
             <button id="trendsPage" class="trendingPreview-btn">Ver más</button>
         </div>
 
+        <!-- Esqueleto de carga para las películas -->
         <article class="trendingPreview-movieList">
+            <div class="skeleton movie-skeleton"></div>
+            <div class="skeleton movie-skeleton"></div>
+            <div class="skeleton movie-skeleton"></div>
+            <div class="skeleton movie-skeleton"></div>
         </article>
     </section>
+
+
 
     <section id="categoriesPreview" class="categoriesPreview-container">
         <span id="homeBtn" class="header-arrow inactive">&lt;</span>
         <span id="arrowBodySearch" class="arrow-search inactive">&lt;</span>
         <h1 class="header-title--categoryView inactive">Acción</h1>
-        <h2 id="title-categorias" class="categoriesPreview-title">Categorías</h2>
+        <h2 id="title-categorias" class="categoriesPreview-title inactive">Categorías</h2>
         <article class="categoriesPreview-list">
-
+            <!-- Esqueleto de carga para las categorías -->
+            <div class="skeleton category-skeleton"></div>
+            <div class="skeleton category-skeleton"></div>
+            <div class="skeleton category-skeleton"></div>
+            <div class="skeleton category-skeleton"></div>
         </article>
     </section>
 
-    <section id="genericList" class="genericList-container inactive">
-        <div class="movie-container">
-            <img src="https://image.tmdb.org/t/p/w300/adOzdWS35KAo21r9R4BuFCkLer6.jpg" class="movie-img"
-                alt="Nombre de la película" />
-        </div>
 
+    <section id="genericList" class="genericList-container inactive">
+        <!-- Esqueleto de carga para la imagen de la película -->
+        <div class="movie-container">
+            <div class="skeleton movie-img-skeleton"></div>
+        </div>
     </section>
+
 
     <section id="movieDetail" class="movieDetail-container inactive">
         <h1 class="movieDetail-title">Deadpool</h1>
@@ -80,20 +91,7 @@
             <h2 class="relatedMovies-title">Películas similares</h2>
 
             <div class="relatedMovies-scrollContainer">
-                <div class="movie-container">
-                    <img src="https://image.tmdb.org/t/p/w300/adOzdWS35KAo21r9R4BuFCkLer6.jpg" class="movie-img"
-                        alt="Nombre de la película" />
-                </div>
 
-                <div class="movie-container">
-                    <img src="https://image.tmdb.org/t/p/w300/adOzdWS35KAo21r9R4BuFCkLer6.jpg" class="movie-img"
-                        alt="Nombre de la película" />
-                </div>
-
-                <div class="movie-container">
-                    <img src="https://image.tmdb.org/t/p/w300/adOzdWS35KAo21r9R4BuFCkLer6.jpg" class="movie-img"
-                        alt="Nombre de la película" />
-                </div>
             </div>
         </article>
     </section>

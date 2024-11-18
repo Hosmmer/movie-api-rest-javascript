@@ -3,6 +3,7 @@ function homePage() {
     setPageConfig(pageConfigs.homePage);
     getTrendingMoviesPreview();
     getCategoriesPreview();
+
 }
 
 function categoriesPage() {

@@ -1,6 +1,27 @@
+//lazy loading - Intersection Observer API JavaScript
+
+const lazeLoader = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+            const img = entry.target;
+            const url = img.getAttribute('data-img');
+            if (url) {
+                img.setAttribute('src', url);
+                img.removeAttribute('data-img');
+            }
+            lazeLoader.unobserve(img);
+        }
+    });
+}, {
+    root: null, // Usar el viewport
+    rootMargin: '0px', // Espacio adicional alrededor del viewport
+    threshold: 0.1 // Cargar imágenes cuando el 10% sea visible
+});
+
+
+
+
 //Funcion para procesar items las cuales seran renderizados
-
-
 function processItems(items, container, callback) {
     container.innerHTML = ''; // Limpiar el contenedor antes de agregar los nuevos elementos
 
@@ -12,7 +33,7 @@ function processItems(items, container, callback) {
 
 
 // Función para crear y mostrar las películas
-function createMovies(movies, container) {
+function createMovies(movies, container, lazyLoad = false) {
     container.innerHTML = '';  // Limpiar el contenedor antes de agregar los nuevos elementos
 
     movies.forEach(movie => {
@@ -26,13 +47,18 @@ function createMovies(movies, container) {
         });
 
         const movieImg = document.createElement('img');
-        movieImg.classList.add('movie-img');
-        movieImg.setAttribute('src', 'https://image.tmdb.org/t/p/w300/' + movie.poster_path);
-        movieImg.setAttribute('alt', movie.title);
 
+        movieImg.classList.add('movie-img');
+        movieImg.setAttribute(lazyLoad ? 'data-img' : 'src', 'https://image.tmdb.org/t/p/w500/' + movie.poster_path);
+        movieImg.setAttribute('alt', movie.title);
         const playBtn = document.createElement('button');
         playBtn.classList.add('play-btn');
         playBtn.textContent = '🎬';
+
+
+        if (lazyLoad) {
+            lazeLoader.observe(movieImg);
+        }
 
         movieContainer.appendChild(movieImg);
         movieContainer.appendChild(playBtn);
@@ -81,39 +107,46 @@ function renderCategories(categories, container) {
 }
 
 // Función que recibe las películas y las muestra en la interfaz
-function createCategory(movies, container, categoryId) {
+function createCategory(movies, container, categoryId = null, lazyLoad = true) {
     container.innerHTML = ''; // Limpiar el contenedor antes de agregar nuevos elementos
 
-
-
-    movies.forEach(movie => {
-        if (movie.genre_ids && movie.genre_ids.includes(categoryId)) {
+    movies.forEach((movie) => {
+        // Verifica si hay un categoryId o si debe cargar todas las películas
+        if (!categoryId || (movie.genre_ids && movie.genre_ids.includes(categoryId))) {
+            console.log('Creando película:', movie.title);
             const movieContainer = document.createElement('div');
             movieContainer.classList.add('movie-container');
 
-
-            // Verificar si 'poster_path' está presente antes de crear la imagen
             if (movie.poster_path) {
                 const movieImg = document.createElement('img');
                 movieImg.classList.add('movie-img');
-                movieImg.setAttribute('src', 'https://image.tmdb.org/t/p/w300/' + movie.poster_path);
+
+                const imageUrl = 'https://image.tmdb.org/t/p/w300/' + movie.poster_path;
+
+                if (lazyLoad) {
+                    console.log('Asignando lazy load a:', movie.title);
+                    movieImg.setAttribute('data-img', imageUrl);
+                    lazeLoader.observe(movieImg); // Observa la imagen
+                } else {
+                    movieImg.setAttribute('src', imageUrl);
+                }
+
                 movieImg.setAttribute('alt', movie.title);
                 movieContainer.appendChild(movieImg);
             } else {
-                console.warn('No se encontró poster_path para la película:', movie.title);
+                console.warn('No se encontró poster_path para:', movie.title);
             }
 
-            // Asignar el título de la película
             const titleElement = document.createElement('h3');
-            titleElement.textContent = movie.title;  // Asignar el título directamente
+            titleElement.textContent = movie.title;
             movieContainer.appendChild(titleElement);
-            container.appendChild(movieContainer);  // Añadir la película al contenedor
+
+            container.appendChild(movieContainer);
         } else {
-            console.warn('La película no pertenece a la categoría con ID:', categoryId);
+            console.warn('Película no pertenece a la categoría con ID:', categoryId);
         }
     });
 
-    // Verifica si no hay películas para la categoría
     if (container.children.length === 0) {
         container.innerHTML = `<p>No se encontraron películas para esta categoría.</p>`;
     }
@@ -131,21 +164,58 @@ function geneMovieTitles(categoryId) {
     headerCategoryTitle.innerHTML = genre;
 
 }
-function createCategory(movies, container) {
+
+function createCategory(movies, container, lazyLoad = true) {
     container.innerHTML = ''; // Limpiar la sección antes de mostrar los resultados
 
-    // Crear una tarjeta para cada película
+    // Iterar sobre las películas y crear las tarjetas
     movies.forEach(movie => {
         const movieCard = document.createElement('div');
         movieCard.classList.add('movie-card');
-        movieCard.innerHTML = `
-            <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title}" />
-            <h3>${movie.title}</h3>
-            <p>${movie.release_date}</p>
-        `;
+
+        // Crear la imagen
+        const movieImg = document.createElement('img');
+        movieImg.setAttribute('alt', movie.title);
+        movieImg.setAttribute('title', movie.title);
+        const imageUrl = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
+
+        //Evento para manejar Errores de mis imagenes
+        movieImg.addEventListener('error', () => {
+            movieImg.setAttribute(
+                'src',
+                'https://martinbrainon.com/inicio/wp-content/uploads/2018/01/lead-nuclear-power-human-error-homer-simpson-1.jpg'
+            )
+        });
+        // Asegurar que la imagen tenga un tamaño auto (manteniendo relación de aspecto)
+        movieImg.style.width = '40vw'; // Ajusta el ancho de la imagen al contenedor
+        movieImg.style.height = '40vh'; // Mantiene la proporción de la imagen
+
+        // Si lazyLoad es true, utilizar data-img para la carga diferida
+        if (lazyLoad) {
+            movieImg.setAttribute('data-img', imageUrl);
+            // Si se utiliza lazy loading, se observa la imagen
+            lazeLoader.observe(movieImg);
+        } else {
+            movieImg.setAttribute('src', imageUrl);
+        }
+
+        // Crear el título y la fecha de lanzamiento
+        const titleElement = document.createElement('h3');
+        titleElement.textContent = movie.title;
+
+        const releaseDateElement = document.createElement('p');
+        releaseDateElement.textContent = movie.release_date;
+
+        // Agregar la imagen, título y fecha al contenedor de la película
+        movieCard.appendChild(movieImg);
+        movieCard.appendChild(titleElement);
+        movieCard.appendChild(releaseDateElement);
+
+        // Agregar la tarjeta de película al contenedor principal
         container.appendChild(movieCard);
     });
 }
+
 
 // Mapeo de categorías con caracteres especiales
 const categoriesToReplace = {
@@ -168,9 +238,4 @@ function cleanCategoryName(categoryId) {
     return cleanedCategoryName;
 }
 
-
-
-function trendsTitle() {
-    titleCategory.innerHTML = "Tendencias🎬";
-}
 
