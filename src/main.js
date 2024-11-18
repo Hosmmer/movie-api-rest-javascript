@@ -141,7 +141,7 @@ const getMoviesByDetails = async (id) => {
             movieDetailTitle.textContent = movie.title || 'Título no disponible';
             movieDetailDescription.textContent = movie.overview || 'Descripción no disponible';
             movieDetailScore.textContent = `Puntuación: ${movie.vote_average || 'No disponible'}`;
-
+            getRelateMoviesId(id);
             // Llamar a la función para renderizar las categorías
             if (Array.isArray(movie.genres)) {
                 renderCategories(movie.genres, movieDetailCategoriesList);
@@ -154,5 +154,18 @@ const getMoviesByDetails = async (id) => {
         }
     } catch (error) {
         console.error('Error al obtener los detalles de la película:', error);
+    }
+};
+
+const getRelateMoviesId = async (id) => {
+    try {
+        const movieRelated = await fetchGetMoviesRelated(id);  // Wait for the promise to resolve
+        if (Array.isArray(movieRelated)) {
+            createMovies(movieRelated, relatedMoviesContainer);
+        } else {
+            console.warn('No related movies found or an error occurred.');
+        }
+    } catch (error) {
+        console.error('Error fetching related movies:', error);
     }
 };

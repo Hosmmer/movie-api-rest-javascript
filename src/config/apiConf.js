@@ -60,3 +60,15 @@ async function fetchGetMoviesByDetails(id) {
         return null;
     }
 }
+
+
+async function fetchGetMoviesRelated(id) {
+    try {
+        const { data } = await api.get(`movie/${id}/recommendations`);
+        const relatedMovies = data.results;
+        return relatedMovies || [];  // Ensure an empty array if no results
+    } catch (error) {
+        console.error('Error fetching related movies:', error);
+        return [];  // Return an empty array if there is an error
+    }
+}
