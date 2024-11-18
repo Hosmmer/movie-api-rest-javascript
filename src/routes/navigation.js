@@ -2,7 +2,6 @@
 let historyArr = JSON.parse(localStorage.getItem('historyArr')) || [];
 
 // Configurar eventos de navegación
-// Configurar eventos de navegación
 function setupNavigationEvents() {
     const buttons = [
         { id: 'homeBtn', hash: '#home' },
@@ -29,25 +28,13 @@ function setupNavigationEvents() {
             console.error(`No se encontró el elemento '${button.id}'. Verifica el ID o el HTML.`);
         }
     });
-
-    const arrowBodySearchBtn = document.querySelector('#arrowBodySearch');
-    if (arrowBodySearchBtn) {
-        arrowBodySearchBtn.addEventListener('click', () => {
-            if (!arrowBodySearchBtn.classList.contains('inactive')) {
-                const currentHash = location.hash;
-
-                if (currentHash === '#trends') {
-                    console.warn('Retrocediendo directamente al home desde trends.');
-                    navigateTo('#home', false); // Forzar la navegación a home
-                } else if (historyArr.length > 1) {
-                    historyArr.pop(); // Elimina solo el último elemento
-                    const previousHash = historyArr[historyArr.length - 1] || '#home';
-                    navigateTo(previousHash, false); // Navegar al hash anterior
-                    updateHistoryStorage(); // Actualizar en localStorage
-                } else {
-                    console.warn('El historial está vacío. Navegando al home.');
-                    navigateTo('#home', false); // Navegar al home si no hay más historial
-                }
+    if (arrowBtn) {
+        arrowBtn.addEventListener('click', () => {
+            // Verificar si el botón no está inactivo
+            if (!arrowBtn.classList.contains('inactive')) {
+                console.log('Retrocediendo al home desde detalles de la película');
+                // Navegar directamente al home sin agregar al historial
+                navigateTo('#home', false);  // Eliminar historial previo si es necesario
             } else {
                 console.warn('El botón de retroceso está inactivo.');
             }
@@ -55,6 +42,30 @@ function setupNavigationEvents() {
     }
 }
 
+// Evento de retroceso en el botón de búsqueda (arrowBodySearchBtn)
+const arrowBodySearchBtn = document.querySelector('#arrowBodySearch');
+if (arrowBodySearchBtn) {
+    arrowBodySearchBtn.addEventListener('click', () => {
+        if (!arrowBodySearchBtn.classList.contains('inactive')) {
+            const currentHash = location.hash;
+
+            if (currentHash === '#trends') {
+                console.warn('Retrocediendo directamente al home desde trends.');
+                navigateTo('#home', false); // Forzar la navegación a home sin historial
+            } else if (historyArr.length > 1) {
+                historyArr.pop(); // Elimina solo el último elemento
+                const previousHash = historyArr[historyArr.length - 1] || '#home';
+                navigateTo(previousHash, false); // Navegar al hash anterior
+                updateHistoryStorage(); // Actualizar en localStorage
+            } else {
+                console.warn('El historial está vacío. Navegando al home.');
+                navigateTo('#home', false); // Navegar al home si no hay más historial
+            }
+        } else {
+            console.warn('El botón de retroceso está inactivo.');
+        }
+    });
+}
 
 // Función para manejar la navegación a una ruta específica
 function navigateTo(hash, addToHistory = false) {
@@ -85,7 +96,7 @@ function handleNavigation() {
                 geneMovieTitles(categoryId); // Lógica para mostrar películas por categoría
             } else {
                 console.error('ID de categoría no válido.');
-                navigateTo('#home', false);
+                navigateTo('#home', false); // Redirigir al home si el ID no es válido
             }
             break;
 
@@ -113,10 +124,16 @@ function handleNavigation() {
             trendsTitle();
             break;
 
-        case hash === '#movie':
-            console.log('Navegando a la página de detalles de película.');
-            setPageConfig(pageConfigs.movieDetailsPage);
-            movieDetailsPage();
+        case hash.startsWith('#movie='):
+            const movieId = hash.split('=')[1];
+            if (movieId) {
+                console.log('Navegando a la página de detalles de la película con ID:', movieId);
+                setPageConfig(pageConfigs.movieDetailsPage);  // Configurar la página de detalles
+                movieDetailsPage(movieId);  // Llamar a la función para cargar detalles de la película con el ID
+            } else {
+                console.error('ID de película no válido.');
+                navigateTo('#home', false); // Redirigir al home si el ID no es válido
+            }
             break;
 
         default:
@@ -125,7 +142,6 @@ function handleNavigation() {
             break;
     }
 }
-
 
 // Función para actualizar el historial en localStorage
 function updateHistoryStorage() {
@@ -152,4 +168,4 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         handleNavigation(); // Manejar la navegación en retrocesos o avances
     });
-})
+});

@@ -50,7 +50,7 @@ const pageConfigs = {
     movieDetailsPage: {
         categoriesPreviewList: { inactive: true },
         headerSection: { background: '', classList: 'header-container--long' },
-        arrowBtn: { inactive: false, classList: 'header-arrow-body' },
+        arrowBtn: { inactive: false, classList: 'header-arrow--white' },
         headerTitle: { inactive: true },
         headerCategoryTitle: { inactive: false },
         searchForm: { inactive: true },
@@ -80,14 +80,14 @@ const pageConfigs = {
         categoriesPreviewList: { inactive: true },
         headerSection: { background: '' },
         arrowBodySearch: { inactive: false },
-
         headerTitle: { inactive: false },
         headerCategoryTitle: { inactive: true },
         searchForm: { inactive: false },
         trendingPreviewSection: { inactive: true },
         categoriesPreviewSection: { inactive: false },
-        titleCategory: { inactive: false },
+        titleCategory: { inactive: true },
         genericSection: { inactive: false },
+        movieDetailSection: { inactive: true },
         footerNone: { inactive: false },
         logoHeader: { inactive: false }
     }

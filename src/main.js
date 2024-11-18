@@ -121,3 +121,38 @@ const getMoviesTrendingPage = async () => {
     createCategory(trendingPageMovies, genericSection);
 
 }
+
+const getMoviesByDetails = async (id) => {
+    try {
+        // Llamar a la función que obtiene los detalles de la película desde la API
+        const movie = await fetchGetMoviesByDetails(id);
+        const movieImgUrl = 'https://image.tmdb.org/t/p/w500' + movie.poster_path;
+        headerSection.style.background = ` 
+        linear-gradient(
+        180deg,
+        rgba(0, 0, 0, 0.35) 19.27%,
+        rgba(0,0,0,0) 29.17%
+        ),
+        url(${movieImgUrl})
+        
+        `;
+        // Verifica si se obtuvo la película correctamente
+        if (movie && typeof movie === 'object') {
+            movieDetailTitle.textContent = movie.title || 'Título no disponible';
+            movieDetailDescription.textContent = movie.overview || 'Descripción no disponible';
+            movieDetailScore.textContent = `Puntuación: ${movie.vote_average || 'No disponible'}`;
+
+            // Llamar a la función para renderizar las categorías
+            if (Array.isArray(movie.genres)) {
+                renderCategories(movie.genres, movieDetailCategoriesList);
+            } else {
+                console.warn('Las categorías no están disponibles o no son válidas.');
+                movieDetailCategoriesList.innerHTML = '<p>Categorías no disponibles.</p>';
+            }
+        } else {
+            console.error('No se pudo obtener los detalles de la película. Verifica el ID o la API.');
+        }
+    } catch (error) {
+        console.error('Error al obtener los detalles de la película:', error);
+    }
+};

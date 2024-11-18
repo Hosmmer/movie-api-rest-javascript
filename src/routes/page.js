@@ -46,8 +46,19 @@ function trendsPage() {
 }
 
 function movieDetailsPage() {
+    // Obtener el ID de la película desde el hash de la URL (ejemplo: #movie=12345)
+    const hash = location.hash;
+    const match = hash.match(/#movie=(\d+)/);  // Extraer el ID de la película de la URL
+
+    if (match) {
+        const id = match[1];  // El ID de la película está en la segunda parte del match
+        getMoviesByDetails(id);  // Llamar a la función para obtener los detalles de la película
+    } else {
+        console.error('ID de película no encontrado en la URL');
+    }
+
     console.log('Movie Details Page');
-    setPageConfig(pageConfigs.movieDetailsPage);
+    setPageConfig(pageConfigs.movieDetailsPage);  // Configurar la página de detalles
 }
 
 

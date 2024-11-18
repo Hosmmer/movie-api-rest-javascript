@@ -49,3 +49,14 @@ async function TrendingMoviesPage() {
     const { data } = await api.get('trending/movie/day');
     return data.results;
 }
+// Función para obtener películas de tendencia
+async function fetchGetMoviesByDetails(id) {
+    try {
+        const response = await api.get('movie/' + id); // Asegúrate de que `api` está correctamente configurado
+        const movie = response.data; // Los detalles de la película están en `data`
+        return movie;  // Devuelve el objeto de la película
+    } catch (error) {
+        console.error('Error al obtener los detalles de la película:', error);
+        return null;
+    }
+}

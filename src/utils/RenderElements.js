@@ -19,6 +19,12 @@ function createMovies(movies, container) {
         const movieContainer = document.createElement('div');
         movieContainer.classList.add('movie-container');
 
+        // Agregar evento de clic a cada película
+        movieContainer.addEventListener('click', () => {
+            location.hash = '#movie=' + movie.id;  // Cambia el hash con el ID de la película
+            console.log('Película seleccionada:', movie.id);
+        });
+
         const movieImg = document.createElement('img');
         movieImg.classList.add('movie-img');
         movieImg.setAttribute('src', 'https://image.tmdb.org/t/p/w300/' + movie.poster_path);
@@ -36,40 +42,54 @@ function createMovies(movies, container) {
 
 // Función para renderizar las categorías en el DOM
 function renderCategories(categories, container) {
-    processItems(categories, container, category => {
-        const categoryContainer = document.createElement('div');
-        categoryContainer.classList.add('category-container');
+    // Limpiar el contenedor antes de agregar nuevos elementos
+    container.innerHTML = '';
 
-        const categoryTitle = document.createElement('h3');
-        categoryTitle.classList.add('category-title');
-        categoryTitle.setAttribute('id', 'id' + category.id);
+    // Validar que `categories` sea un array
+    if (!Array.isArray(categories) || categories.length === 0) {
+        console.warn('No hay categorías disponibles para renderizar.');
+        const noCategoriesMsg = document.createElement('p');
+        noCategoriesMsg.textContent = 'Categorías no disponibles.';
+        container.appendChild(noCategoriesMsg);
+        return;
+    }
 
-        const categoryTitleText = document.createTextNode(category.name);
-        categoryTitle.appendChild(categoryTitleText);
+    // Crear elementos para cada categoría
+    categories.forEach(category => {
+        if (category && category.id && category.name) {
+            const categoryContainer = document.createElement('div');
+            categoryContainer.classList.add('category-container');
 
-        // Añadir evento de clic para cambiar la ubicación
-        categoryTitle.addEventListener('click', () => {
-            location.hash = `#category=${category.id}-${category.name}`;
-        });
+            const categoryTitle = document.createElement('h3');
+            categoryTitle.classList.add('category-title');
+            categoryTitle.setAttribute('id', 'id' + category.id);
 
-        categoryContainer.appendChild(categoryTitle);
-        return categoryContainer;
+            const categoryTitleText = document.createTextNode(category.name);
+            categoryTitle.appendChild(categoryTitleText);
+
+            // Evento de clic para cambiar el hash de la URL
+            categoryTitle.addEventListener('click', () => {
+                location.hash = `#category=${category.id}-${encodeURIComponent(category.name)}`;
+            });
+
+            categoryContainer.appendChild(categoryTitle);
+            container.appendChild(categoryContainer);
+        } else {
+            console.warn('Se encontró una categoría inválida:', category);
+        }
     });
 }
-
-
-
 
 // Función que recibe las películas y las muestra en la interfaz
 function createCategory(movies, container, categoryId) {
     container.innerHTML = ''; // Limpiar el contenedor antes de agregar nuevos elementos
 
 
+
     movies.forEach(movie => {
         if (movie.genre_ids && movie.genre_ids.includes(categoryId)) {
             const movieContainer = document.createElement('div');
             movieContainer.classList.add('movie-container');
-
 
 
             // Verificar si 'poster_path' está presente antes de crear la imagen
@@ -153,3 +173,4 @@ function cleanCategoryName(categoryId) {
 function trendsTitle() {
     titleCategory.innerHTML = "Tendencias🎬";
 }
+
