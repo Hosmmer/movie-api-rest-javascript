@@ -44,3 +44,8 @@ async function getMoviesBySearch(query) {
     }
 }
 
+// Función para obtener películas de tendencia
+async function TrendingMoviesPage() {
+    const { data } = await api.get('trending/movie/day');
+    return data.results;
+}

@@ -148,3 +148,8 @@ function cleanCategoryName(categoryId) {
     return cleanedCategoryName;
 }
 
+
+
+function trendsTitle() {
+    titleCategory.innerHTML = "Tendencias🎬";
+}

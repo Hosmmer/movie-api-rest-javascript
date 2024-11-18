@@ -39,6 +39,11 @@ function searchPage() {
     }
 }
 
+function trendsPage() {
+    getMoviesTrendingPage();
+    setPageConfig(pageConfigs.trendsPage);
+
+}
 
 function movieDetailsPage() {
     console.log('Movie Details Page');

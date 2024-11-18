@@ -2,6 +2,7 @@
 let historyArr = JSON.parse(localStorage.getItem('historyArr')) || [];
 
 // Configurar eventos de navegación
+// Configurar eventos de navegación
 function setupNavigationEvents() {
     const buttons = [
         { id: 'homeBtn', hash: '#home' },
@@ -18,10 +19,10 @@ function setupNavigationEvents() {
                     const searchQuery = searchFormInput.value.trim(); // Obtener el valor del input
                     if (searchQuery) {
                         const newHash = '#search=' + encodeURIComponent(searchQuery);
-                        navigateTo(newHash, true); // Usa `true` para agregar al historial
+                        navigateTo(newHash, true); // Usa true para agregar al historial
                     }
                 } else {
-                    navigateTo(button.hash, true); // Usa `true` para agregar al historial
+                    navigateTo(button.hash, true); // Usa true para agregar al historial
                 }
             });
         } else {
@@ -33,7 +34,12 @@ function setupNavigationEvents() {
     if (arrowBodySearchBtn) {
         arrowBodySearchBtn.addEventListener('click', () => {
             if (!arrowBodySearchBtn.classList.contains('inactive')) {
-                if (historyArr.length > 1) {
+                const currentHash = location.hash;
+
+                if (currentHash === '#trends') {
+                    console.warn('Retrocediendo directamente al home desde trends.');
+                    navigateTo('#home', false); // Forzar la navegación a home
+                } else if (historyArr.length > 1) {
                     historyArr.pop(); // Elimina solo el último elemento
                     const previousHash = historyArr[historyArr.length - 1] || '#home';
                     navigateTo(previousHash, false); // Navegar al hash anterior
@@ -49,10 +55,12 @@ function setupNavigationEvents() {
     }
 }
 
+
 // Función para manejar la navegación a una ruta específica
 function navigateTo(hash, addToHistory = false) {
     if (location.hash !== hash) {
-        if (addToHistory) {
+        if (addToHistory && hash !== '#trends') {
+            // Solo agrega al historial si no es la ruta #trends
             history.pushState({ page: hash }, '', hash); // Agrega al historial del navegador
             historyArr.push(hash); // Agrega la ruta al historial personalizado
             updateHistoryStorage(); // Guardar en localStorage
@@ -98,6 +106,13 @@ function handleNavigation() {
             }
             break;
 
+        case hash === '#trends':
+            console.log('Navegando a la página de tendencias.');
+            setPageConfig(pageConfigs.trendsPage);
+            trendsPage();
+            trendsTitle();
+            break;
+
         case hash === '#movie':
             console.log('Navegando a la página de detalles de película.');
             setPageConfig(pageConfigs.movieDetailsPage);
@@ -110,6 +125,7 @@ function handleNavigation() {
             break;
     }
 }
+
 
 // Función para actualizar el historial en localStorage
 function updateHistoryStorage() {
@@ -136,4 +152,4 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         handleNavigation(); // Manejar la navegación en retrocesos o avances
     });
-});
+})

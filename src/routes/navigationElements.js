@@ -77,19 +77,19 @@ const pageConfigs = {
         logoHeader: { inactive: false }
     },
     trendsPage: {
-        categoriesPreviewList: { inactive: false },
+        categoriesPreviewList: { inactive: true },
         headerSection: { background: '' },
-        arrowBodySearch: { inactive: true },
-        headerTitle: { inactive: true },
+        arrowBodySearch: { inactive: false },
+
+        headerTitle: { inactive: false },
         headerCategoryTitle: { inactive: true },
-        searchForm: { inactive: true },
+        searchForm: { inactive: false },
         trendingPreviewSection: { inactive: true },
-        categoriesPreviewSection: { inactive: true },
-        titleCategory: { inactive: true },
-        genericSection: { inactive: true },
-        movieDetailSection: { inactive: true },
+        categoriesPreviewSection: { inactive: false },
+        titleCategory: { inactive: false },
+        genericSection: { inactive: false },
         footerNone: { inactive: false },
-        logoHeader: { inactive: true }
+        logoHeader: { inactive: false }
     }
 };
 /**

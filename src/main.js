@@ -113,3 +113,11 @@ const getMoviesSeachAll = async (query) => {
         console.error('Error al obtener películas de búsqueda:', error);
     }
 };
+
+
+
+const getMoviesTrendingPage = async () => {
+    const trendingPageMovies = await TrendingMoviesPage();
+    createCategory(trendingPageMovies, genericSection);
+
+}
