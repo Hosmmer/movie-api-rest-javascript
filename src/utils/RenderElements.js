@@ -32,27 +32,46 @@ function processItems(items, container, callback) {
 
 // Función para crear y mostrar las películas
 function createMovies(movies, container, lazyLoad = false) {
-    container.innerHTML = '';  // Limpiar el contenedor antes de agregar los nuevos elementos
+    container.innerHTML = ''; // Limpiar el contenedor antes de agregar los nuevos elementos
 
+    const likedMovies = likedMoviesList(); // Obtener favoritos actuales
     movies.forEach(movie => {
         const movieContainer = document.createElement('div');
         movieContainer.classList.add('movie-container');
 
-        // Agregar evento de clic a cada película
-        movieContainer.addEventListener('click', () => {
-            location.hash = '#movie=' + movie.id;  // Cambia el hash con el ID de la película
-            console.log('Película seleccionada:', movie.id);
+        // Evento para ir al detalle de la película
+        movieContainer.addEventListener('click', (event) => {
+            // Verificar que no se hizo clic en un botón dentro del contenedor
+            if (!event.target.classList.contains('movie-btn')) {
+                location.hash = '#movie=' + movie.id; // Cambia el hash con el ID de la película
+                console.log('Película seleccionada:', movie.id);
+            }
         });
 
         const movieImg = document.createElement('img');
-
         movieImg.classList.add('movie-img');
         movieImg.setAttribute(lazyLoad ? 'data-img' : 'src', 'https://image.tmdb.org/t/p/w500/' + movie.poster_path);
         movieImg.setAttribute('alt', movie.title);
+
         const playBtn = document.createElement('button');
         playBtn.classList.add('play-btn');
         playBtn.textContent = '🎬';
 
+        const movieBtn = document.createElement('button');
+        movieBtn.classList.add('movie-btn');
+
+        // Verificar si la película ya está marcada como favorita
+        if (likedMovies[movie.id]) {
+            movieBtn.classList.add('movie-btn--liked'); // Marcar como favorita
+        }
+
+        // Evento para dar "like" a la película
+        movieBtn.addEventListener('click', (event) => {
+            event.stopPropagation(); // Evita que el clic en el botón afecte al contenedor
+            movieBtn.classList.toggle('movie-btn--liked');
+            likeMovie(movie);
+            console.log(`Película con ID ${movie.id} marcada como favorita.`);
+        });
 
         if (lazyLoad) {
             lazeLoader.observe(movieImg);
@@ -60,9 +79,12 @@ function createMovies(movies, container, lazyLoad = false) {
 
         movieContainer.appendChild(movieImg);
         movieContainer.appendChild(playBtn);
+        movieContainer.appendChild(movieBtn);
+
         container.appendChild(movieContainer);
     });
 }
+
 
 // Función para renderizar las categorías en el DOM
 function renderCategories(categories, container, lazyLoad = false) {

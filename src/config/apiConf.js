@@ -9,6 +9,34 @@ const api = axios.create({
 });
 
 
+
+function likedMoviesList() {
+    // Obtener el objeto de películas guardadas en Local Storage
+    const item = JSON.parse(localStorage.getItem('liked_movies'));
+    return item ? item : {}; // Devuelve un objeto vacío si no hay favoritos
+}
+function likeMovie(movie) {
+    // Obtener las películas favoritas actuales
+    const likedMovies = likedMoviesList();
+
+    if (likedMovies[movie.id]) {
+        // Eliminar la película de favoritos
+        delete likedMovies[movie.id];
+    } else {
+        // Agregar la película a favoritos
+        likedMovies[movie.id] = movie;
+    }
+
+    // Guardar el objeto actualizado en Local Storage
+    localStorage.setItem('liked_movies', JSON.stringify(likedMovies));
+
+    // Llamar a getLikeMovies para actualizar las películas favoritas en la interfaz
+    getLikeMovies();
+}
+
+
+
+
 // Función para obtener películas de tendencia
 async function dataTrendingMovies() {
     const { data } = await api.get('trending/movie/day');
@@ -110,14 +138,6 @@ async function getPaginatedTrendingMovies() {
 
 }
 
-
-
-
-
-
-
-
-
 // Función para obtener películas de tendencia
 async function dataMoviesByDetails(id) {
     try {
@@ -130,7 +150,6 @@ async function dataMoviesByDetails(id) {
     }
 }
 
-
 async function dataMoviesRelated(id) {
     try {
         const { data } = await api.get(`movie/${id}/recommendations`);
@@ -141,3 +160,18 @@ async function dataMoviesRelated(id) {
         return [];  // Return an empty array if there is an error
     }
 }
+
+//Funcion para crear peliculas que me gustan
+
+function getLikeMovies() {
+    const likedMovies = likedMoviesList();
+    const moviesArray = Object.values(likedMovies);
+
+    // Crear y agregar las películas al contenedor
+    createCategory(moviesArray, LikedMoviesContainerArticle, { lazyload: false, clean: true });
+    console.log(moviesArray);
+}
+
+
+
+

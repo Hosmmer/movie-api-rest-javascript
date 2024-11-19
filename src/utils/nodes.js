@@ -14,6 +14,11 @@ const categoriesPreviewList = document.querySelector('.categoriesPreview-list');
 const movieDetailCategoriesList = document.querySelector('#movieDetail .categories-list');
 const titleCategory = document.querySelector('#title-categorias');
 const relatedMoviesContainer = document.querySelector('.relatedMovies-scrollContainer');
+const MoviesContainer = document.querySelector('.liked-container');
+
+const LikedMoviesContainerArticle = document.querySelector('.liked-movieList');
+
+
 
 // Elements
 const headerTitle = document.querySelector('.header-title');

@@ -129,7 +129,32 @@ button {
   width: 40vw;
 
 }
+.movie-btn{
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  height: 30px;
+  width: 30px;
+  border-radius: 30px;
+  padding: 0;
+  margin: 0;
+  background-color: var(--purple-light-2);
 
+}
+
+.movie-btn::before{
+  content: '🤍';
+}
+
+.movie-btn--liked {
+  background-color: var(--purple-dark-2);
+
+}
+
+.movie-btn--liked::before{
+  content: '💜';
+  
+}
 
 .categoriesPreview-list, .categories-list {
   display: flex;
@@ -274,8 +299,7 @@ button {
 }
 
 .trendingPreview-movieList {
-  overflow-x: scroll;
-  overflow-y: hidden;
+  overflow-y: auto;
   white-space: nowrap;
   height: 241px;
   padding-bottom: 16px;
@@ -303,7 +327,7 @@ button {
   display: inline-block;
   margin-right: 8px;
   position: relative;
-  overflow: hidden;
+  overflow-x: auto;
   transition: transform 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
   will-change: transform;
   transform-style: preserve-3d; /* Previene que el zoom afecte otras tarjetas */
@@ -697,4 +721,40 @@ footer {
   height: 180px;
   margin: 10px 0;
   border-radius: 8px;
+}
+
+
+
+.liked-container {
+  display: flex;
+  flex-direction: column; /* Para que el título esté encima */
+  gap: 10px; /* Espaciado entre el título y las películas */
+  overflow-x: auto; /* Desplazamiento horizontal */
+  padding: 10px 20px 0;
+}
+
+.liked-header {
+  flex-shrink: 0; /* Mantiene el título fijo */
+}
+
+.liked-title {
+  font-size: 1.5rem; /* Ajusta el tamaño del texto del título */
+  margin: 0;
+  color: #333; /* Color del texto */
+}
+
+.liked-movieList {
+  display: flex; /* Diseña las películas en fila */
+  flex-wrap: nowrap; /* Mantiene las películas en una sola línea */
+  gap: 15px; /* Espaciado entre las imágenes */
+  overflow-x: auto; /* Desplazamiento horizontal */
+  padding: 10px 0; /* Espaciado interno */
+}
+
+.liked-movieList img {
+  width: 30vw; /* Ajusta el ancho relativo a la ventana */
+  flex-shrink: 0; /* Evita que las imágenes se redimensionen automáticamente */
+  border-radius: 10px; /* Bordes redondeados para las imágenes */
+  object-fit: cover; /* Ajusta la imagen dentro del contenedor */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra sutil para las imágenes */
 }
