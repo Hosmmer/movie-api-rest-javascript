@@ -136,7 +136,10 @@ const getMoviesSeachAll = async (query) => {
 
 const getMoviesTrendingPage = async () => {
     const trendingPageMovies = await TrendingMoviesPage();
-    createCategory(trendingPageMovies, genericSection, true); // null para no filtrar por categoría
+    createCategory(trendingPageMovies, genericSection, {
+        lazyLoad: true,
+        clean: true
+    }); // null para no filtrar por categoría
 
 }
 
