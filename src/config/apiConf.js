@@ -49,6 +49,36 @@ async function TrendingMoviesPage() {
     const { data } = await api.get('trending/movie/day');
     return data.results;
 }
+
+
+
+async function getPaginatedTrendingMovies() {
+    const {
+        scrollTop,
+        scrollHeight,
+        clientHeight
+    } = document.documentElement;
+
+    const scrollIsBottom = (scrollTop + clientHeight) >= (scrollHeight - 15);
+
+    if (scrollIsBottom) {
+        page++;
+        const { data } = await api('trending/movie/day', {
+            params: {
+                page,
+            },
+        });
+        const movies = data.results;
+
+        createCategory(
+            movies,
+            genericSection,
+            { lazyLoad: true, clean: false },
+        );
+    }
+
+}
+
 // Función para obtener películas de tendencia
 async function fetchGetMoviesByDetails(id) {
     try {

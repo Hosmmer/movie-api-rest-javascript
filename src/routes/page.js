@@ -21,6 +21,7 @@ function categoriesPage() {
 
 
     getMoviesByCategory(categoryId);  // Llama a la función para obtener las películas por categoría
+
 }
 
 
@@ -38,12 +39,13 @@ function searchPage() {
             genericSection.innerHTML = '<p>Por favor ingresa un término de búsqueda.</p>';
         }
     }
+
 }
 
 function trendsPage() {
     getMoviesTrendingPage();
     setPageConfig(pageConfigs.trendsPage);
-
+    infiniteScroll = getPaginatedTrendingMovies;
 }
 
 function movieDetailsPage() {

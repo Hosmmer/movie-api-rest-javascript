@@ -165,8 +165,17 @@ function geneMovieTitles(categoryId) {
 
 }
 
-function createCategory(movies, container, lazyLoad = true) {
-    container.innerHTML = ''; // Limpiar la sección antes de mostrar los resultados
+function createCategory(
+    movies,
+    container,
+    {
+        lazyLoad = false,
+        clean = true,
+    } = {},
+) {
+    if (clean) {
+        container.innerHTML = '';
+    }
 
     // Iterar sobre las películas y crear las tarjetas
     movies.forEach(movie => {
@@ -183,7 +192,7 @@ function createCategory(movies, container, lazyLoad = true) {
         movieImg.addEventListener('error', () => {
             movieImg.setAttribute(
                 'src',
-                'https://martinbrainon.com/inicio/wp-content/uploads/2018/01/lead-nuclear-power-human-error-homer-simpson-1.jpg'
+                'https://www.1stopdesign.com/wp-content/uploads/2024/04/1_hFwwQAW45673VGKrMPE2qQ-300x225.png'
             )
         });
         // Asegurar que la imagen tenga un tamaño auto (manteniendo relación de aspecto)

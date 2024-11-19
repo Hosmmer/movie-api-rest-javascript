@@ -1,6 +1,7 @@
 // Verificar si historyArr ya existe en localStorage
 let historyArr = JSON.parse(localStorage.getItem('historyArr')) || [];
-
+let page = 1;
+let infiniteScroll;
 // Configurar eventos de navegación
 function setupNavigationEvents() {
     const buttons = [
@@ -75,7 +76,10 @@ function navigateTo(hash, addToHistory = false) {
 function handleNavigation() {
     const hash = location.hash || '#home'; // Valor predeterminado
     console.log(`Hash actual: ${hash}`);
-
+    if (infiniteScroll) {
+        window.removeEventListener('scroll', infiniteScroll);
+        infiniteScroll = undefined;
+    }
     switch (true) {
         case hash.startsWith('#category='):
             const categoryId = hash.split('=')[1];
@@ -87,6 +91,8 @@ function handleNavigation() {
                 console.error('ID de categoría no válido.');
                 navigateTo('#home', false); // Redirigir al home si el ID no es válido
             }
+            infiniteScroll = getPaginatedTrendingMovies;
+
             break;
 
         case hash === '#home':
@@ -104,6 +110,7 @@ function handleNavigation() {
             } else {
                 console.warn('No se proporcionó un término de búsqueda.');
             }
+
             break;
 
         case hash === '#trends':
@@ -128,6 +135,14 @@ function handleNavigation() {
             console.warn('Ruta no reconocida. Navegando a la página predeterminada (home).');
             navigateTo('#home', false); // Redirigir al home si la ruta no es válida
             break;
+
+
+    }
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+
+    if (infiniteScroll) {
+        window.addEventListener('scroll', infiniteScroll, { passive: false });
     }
 }
 
@@ -157,3 +172,4 @@ document.addEventListener('DOMContentLoaded', () => {
         handleNavigation(); // Manejar la navegación en retrocesos o avances
     });
 });
+window.addEventListener('scroll', infiniteScroll);

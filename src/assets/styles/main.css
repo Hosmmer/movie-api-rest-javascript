@@ -121,7 +121,7 @@ button {
 .movie-card{
   display: flex;
   flex-direction: column;
-  height: 40vh;
+  height: 55vh;
   width: 40vw;
 }
 .movie-card img{
@@ -434,6 +434,7 @@ button {
   justify-content: space-around;
   flex-wrap: wrap;
   padding: 42px 24px;
+  gap:20px;
 }
 
 .genericList-container .movie-container {
