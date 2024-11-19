@@ -1,6 +1,6 @@
 // Función principal para obtener las películas y aplicar las funciones
 const getTrendingMoviesPreview = async () => {
-    const movies = await fetchTrendingMovies();
+    const movies = await dataTrendingMovies();
 
     const trendingMoviesPreviewList = document.querySelector('.trendingPreview-movieList');
 
@@ -58,7 +58,7 @@ const getTrendingMoviesPreview = async () => {
 
 
 const getCategoriesPreview = async () => {
-    const categories = await fetchMovieGenres();
+    const categories = await dataMovieGenres();
 
     if (!categoriesPreviewList) {
         return;
@@ -76,7 +76,7 @@ const getMoviesByCategory = async (id) => {
         const categoryId = parseInt(id);
 
         // Obtener películas por categoría
-        const movies = await fetchMoviesByCategory(categoryId); // Llamar la API para obtener las películas
+        const movies = await dataMoviesByCategory(categoryId); // Llamar la API para obtener las películas
 
         console.log(movies); // Verificar la estructura de los datos
 
@@ -135,18 +135,31 @@ const getMoviesSeachAll = async (query) => {
 
 
 const getMoviesTrendingPage = async () => {
-    const trendingPageMovies = await TrendingMoviesPage();
-    createCategory(trendingPageMovies, genericSection, {
-        lazyLoad: true,
-        clean: true
-    }); // null para no filtrar por categoría
+    try {
+        // Obtener las películas de la página de tendencias
+        const trendingPageMovies = await TrendingMoviesPage();
+        // Verificar que el contenedor exista
+        if (!genericSection) {
+            console.error('No se encontró el contenedor para mostrar las películas.');
+            return;
+        }
+        titleTendencias()
+        // Renderizar las películas con lazy loading habilitado
+        createCategory(trendingPageMovies, genericSection, {
+            lazyLoad: true,
+            clean: false, // No limpiar, ya que hemos agregado el título
+        });
 
-}
+    } catch (error) {
+        console.error('Error al cargar las películas en tendencia:', error);
+    }
+};
+
 
 const getMoviesByDetails = async (id) => {
     try {
         // Llamar a la función que obtiene los detalles de la película desde la API
-        const movie = await fetchGetMoviesByDetails(id);
+        const movie = await dataMoviesByDetails(id);
         const movieImgUrl = 'https://image.tmdb.org/t/p/w500' + movie.poster_path;
         headerSection.style.background = ` 
         linear-gradient(
@@ -180,7 +193,7 @@ const getMoviesByDetails = async (id) => {
 
 const getRelateMoviesId = async (id) => {
     try {
-        const movieRelated = await fetchGetMoviesRelated(id);  // Wait for the promise to resolve
+        const movieRelated = await dataMoviesRelated(id);  // Wait for the promise to resolve
         if (Array.isArray(movieRelated)) {
             createMovies(movieRelated, relatedMoviesContainer, true);
         } else {

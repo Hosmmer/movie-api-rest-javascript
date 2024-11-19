@@ -17,8 +17,6 @@ function categoriesPage() {
 
     if (!categoryId) return; // Asegúrate de que ambos valores existan
 
-    console.log('conolaamondaaaaaaaaaaaaa', categoryId);
-
 
     getMoviesByCategory(categoryId);  // Llama a la función para obtener las películas por categoría
 
@@ -28,10 +26,17 @@ function categoriesPage() {
 // Función principal para la página de búsqueda
 
 function searchPage() {
-    const [_, query] = location.hash.split('='); // Obtén el término de búsqueda desde el hash
+    const [_, query] = location.hash.split('=');
     if (query) {
         console.log('Buscando películas con el término:', query);
-        getMoviesSeachAll(query); // Llama a la función para manejar la búsqueda y renderizado
+        getMoviesSeachAll(query);
+
+        // Configura el evento de infinite scroll
+        infiniteScroll = getPaginatedMoviesBySearch(query);
+
+        // Elimina cualquier listener anterior y registra el nuevo
+        window.removeEventListener('scroll', infiniteScroll);
+        window.addEventListener('scroll', infiniteScroll, { passive: false });
     } else {
         console.warn('El término de búsqueda está vacío.');
         const genericSection = document.querySelector('#genericList');
@@ -39,13 +44,14 @@ function searchPage() {
             genericSection.innerHTML = '<p>Por favor ingresa un término de búsqueda.</p>';
         }
     }
-
 }
+
 
 function trendsPage() {
     getMoviesTrendingPage();
     setPageConfig(pageConfigs.trendsPage);
     infiniteScroll = getPaginatedTrendingMovies;
+
 }
 
 function movieDetailsPage() {

@@ -13,7 +13,8 @@ const elements = {
     genericSection,
     movieDetailSection,
     footerNone,
-    logoHeader
+    logoHeader,
+    titleTrending
 };
 // Obje elementos o contenedores visibles en cada router
 const pageConfigs = {
@@ -82,6 +83,7 @@ const pageConfigs = {
         arrowBodySearch: { inactive: false, classList: 'header-arrowContainer--purple' }, headerTitle: { inactive: true },
         searchForm: { inactive: false },
         trendingPreviewSection: { inactive: true },
+        titleTrending: { inactive: false },
         categoriesPreviewSection: { inactive: true },
         genericSection: { inactive: false },
         footerNone: { inactive: false },

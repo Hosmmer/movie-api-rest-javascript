@@ -245,3 +245,22 @@ function cleanCategoryName(categoryId) {
 }
 
 
+function titleTendencias() {
+    // Limpiar el contenedor antes de agregar contenido
+    genericSection.innerHTML = '';
+
+    // Crear y agregar el título dinámico
+    const titleElement = document.createElement('h2');
+    titleElement.classList.add('generic-title'); // Clase para estilos
+    titleElement.textContent = 'Tendencias📽️'; // Título dinámico
+
+    // Agregar estilos en línea para asegurarte de que sea inline-block
+    titleElement.style.position = 'absolute';
+    titleElement.style.top = '140px';
+
+    titleElement.style.margin = '0 auto'; // Centrar si es necesario
+    titleElement.style.padding = '16px 0'; // Espaciado superior e inferior
+
+    // Insertar el título al inicio
+    genericSection.appendChild(titleElement);
+}

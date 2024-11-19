@@ -10,20 +10,20 @@ const api = axios.create({
 
 
 // Función para obtener películas de tendencia
-async function fetchTrendingMovies() {
+async function dataTrendingMovies() {
     const { data } = await api.get('trending/movie/day');
     return data.results;
 }
 
 // Función para obtener géneros de películas
-async function fetchMovieGenres() {
+async function dataMovieGenres() {
     const { data } = await api.get('genre/movie/list');
     return data.genres;
 }
 
 
 // Función para obtener películas por categoría
-async function fetchMoviesByCategory(id) {
+async function dataMoviesByCategory(id) {
     const { data } = await api.get('discover/movie', {
         params: {
             with_genres: id,
@@ -44,6 +44,36 @@ async function getMoviesBySearch(query) {
     }
 }
 
+function getPaginatedMoviesBySearch(query) {
+    return async function infiniteScrollHandler() {
+        const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+
+        // Verifica si el usuario ha llegado al final de la página
+        const scrollIsBottom = scrollTop + clientHeight >= scrollHeight - 15;
+
+        // Verifica que aún no se haya alcanzado la última página
+        const pageIsNotMax = page < maxPage;
+
+        if (scrollIsBottom && pageIsNotMax) {
+            page++;
+            console.log(`Cargando página ${page} para la búsqueda: ${query}`);
+
+            try {
+                const { data } = await api.get('search/movie', { params: { query, page } });
+                const movies = data.results;
+
+                // Renderiza las películas
+                createCategory(movies, genericSection, { lazyLoad: true, clean: false });
+            } catch (error) {
+                console.error('Error al obtener películas:', error);
+            }
+        }
+    };
+}
+
+
+
+
 // Función para obtener películas de tendencia
 async function TrendingMoviesPage() {
     const { data } = await api.get('trending/movie/day');
@@ -51,7 +81,7 @@ async function TrendingMoviesPage() {
 }
 
 
-
+//funcion para calcular scroll infinito para mi data
 async function getPaginatedTrendingMovies() {
     const {
         scrollTop,
@@ -60,8 +90,9 @@ async function getPaginatedTrendingMovies() {
     } = document.documentElement;
 
     const scrollIsBottom = (scrollTop + clientHeight) >= (scrollHeight - 15);
-
-    if (scrollIsBottom) {
+    const pageIsNotMax = page - maxPage;
+    console.log(pageIsNotMax);
+    if (scrollIsBottom && pageIsNotMax) {
         page++;
         const { data } = await api('trending/movie/day', {
             params: {
@@ -79,8 +110,16 @@ async function getPaginatedTrendingMovies() {
 
 }
 
+
+
+
+
+
+
+
+
 // Función para obtener películas de tendencia
-async function fetchGetMoviesByDetails(id) {
+async function dataMoviesByDetails(id) {
     try {
         const response = await api.get('movie/' + id); // Asegúrate de que `api` está correctamente configurado
         const movie = response.data; // Los detalles de la película están en `data`
@@ -92,7 +131,7 @@ async function fetchGetMoviesByDetails(id) {
 }
 
 
-async function fetchGetMoviesRelated(id) {
+async function dataMoviesRelated(id) {
     try {
         const { data } = await api.get(`movie/${id}/recommendations`);
         const relatedMovies = data.results;

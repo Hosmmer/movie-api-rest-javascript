@@ -20,6 +20,7 @@
     <header id="header" class="header-container">
         <img src="./src/assets/img/pngwing.com.png" id="logo-header" class="logo-header"></img>
         <span id="arrowBodySearch" class="arrow-search inactive">&lt;</span>
+
         <form id="searchForm" class="header-searchForm">
             <input type="text" placeholder="Buscar..." />
             <button id="searchFormBtn">🔍</button>
@@ -28,7 +29,8 @@
 
     <section id="trendingPreview" class="trendingPreview-container">
         <div class="trendingPreview-header">
-            <h2 class="trendingPreview-title">Tendencias</h2>
+            <h2 class="trendingPreview-title">Tendencias 🎬</h2>
+
             <button id="trendsPage" class="trendingPreview-btn">Ver más</button>
         </div>
 
@@ -46,8 +48,10 @@
     <section id="categoriesPreview" class="categoriesPreview-container">
         <span id="homeBtn" class="header-arrow inactive">&lt;</span>
         <span id="arrowBodySearch" class="arrow-search inactive">&lt;</span>
+
         <h1 class="header-title--categoryView inactive">Acción</h1>
         <h2 id="title-categorias" class="categoriesPreview-title inactive">Categorías</h2>
+
         <article class="categoriesPreview-list">
             <!-- Esqueleto de carga para las categorías -->
             <div class="skeleton category-skeleton"></div>
@@ -59,7 +63,6 @@
 
 
     <section id="genericList" class="genericList-container inactive">
-        <!-- Esqueleto de carga para la imagen de la película -->
         <div class="movie-container">
             <div class="skeleton movie-img-skeleton"></div>
         </div>
@@ -112,15 +115,25 @@
             </div>
         </div>
     </footer>
+    <!-- Librerías externas -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="./src/utils/nodes.js"></script>
-    <script src="./src/utils/RenderElements.js"></script>
+
+    <!-- Configuraciones (deben cargarse antes de que sean usadas por otros scripts) -->
     <script src="./src/config/enverioments.js"></script>
     <script src="./src/config/apiConf.js"></script>
-    <script src="./src/main.js"></script>
-    <script src="./src/routes/navigation.js"></script>
+
+    <!-- Utilidades (independientes y usadas en varios lugares) -->
+    <script src="./src/utils/nodes.js"></script>
+    <script src="./src/utils/RenderElements.js"></script>
+
+    <!-- Navegación y rutas -->
     <script src="./src/routes/navigationElements.js"></script>
+    <script src="./src/routes/navigation.js"></script>
     <script src="./src/routes/page.js"></script>
+
+    <!-- Lógica principal -->
+    <script src="./src/main.js"></script>
+
 
 
 </body>

@@ -27,7 +27,10 @@ const searchFormInput = document.querySelector('#searchForm input');
 const searchFormBtn = document.querySelector('#searchBtn');
 
 const trendingBtn = document.querySelector('.trendingPreview-btn');
+const titleTrending = document.querySelector('.trendingPreview-title');
 const HomeBtn = document.querySelector('.arrow-search');
+
+
 
 const movieDetailTitle = document.querySelector('.movieDetail-title');
 const movieDetailDescription = document.querySelector('.movieDetail-description');

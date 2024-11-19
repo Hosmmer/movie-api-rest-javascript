@@ -1,6 +1,7 @@
 // Verificar si historyArr ya existe en localStorage
 let historyArr = JSON.parse(localStorage.getItem('historyArr')) || [];
 let page = 1;
+let maxPage = 30;
 let infiniteScroll;
 // Configurar eventos de navegación
 function setupNavigationEvents() {
