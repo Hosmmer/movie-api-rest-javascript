@@ -1,6 +1,6 @@
 //lazy loading - Intersection Observer API JavaScript
 
-const lazeLoader = new IntersectionObserver((entries) => {
+const lazeLoader = new IntersectionObserver((entries, observer) => {
     entries.forEach((entry) => {
         if (entry.isIntersecting) {
             const img = entry.target;
@@ -9,16 +9,14 @@ const lazeLoader = new IntersectionObserver((entries) => {
                 img.setAttribute('src', url);
                 img.removeAttribute('data-img');
             }
-            lazeLoader.unobserve(img);
+            observer.unobserve(img); // Dejar de observar la imagen una vez cargada
         }
     });
 }, {
-    root: null, // Usar el viewport
-    rootMargin: '0px', // Espacio adicional alrededor del viewport
-    threshold: 0.1 // Cargar imágenes cuando el 10% sea visible
+    root: null,       // Viewport como raíz
+    rootMargin: '0px', // Espaciado alrededor del viewport
+    threshold: 0.1     // Cargar cuando el 10% sea visible
 });
-
-
 
 
 //Funcion para procesar items las cuales seran renderizados
@@ -67,11 +65,9 @@ function createMovies(movies, container, lazyLoad = false) {
 }
 
 // Función para renderizar las categorías en el DOM
-function renderCategories(categories, container) {
-    // Limpiar el contenedor antes de agregar nuevos elementos
+function renderCategories(categories, container, lazyLoad = false) {
     container.innerHTML = '';
 
-    // Validar que `categories` sea un array
     if (!Array.isArray(categories) || categories.length === 0) {
         console.warn('No hay categorías disponibles para renderizar.');
         const noCategoriesMsg = document.createElement('p');
@@ -80,35 +76,40 @@ function renderCategories(categories, container) {
         return;
     }
 
-    // Crear elementos para cada categoría
     categories.forEach(category => {
-        if (category && category.id && category.name) {
-            const categoryContainer = document.createElement('div');
-            categoryContainer.classList.add('category-container');
+        const categoryContainer = document.createElement('div');
+        categoryContainer.classList.add('category-container');
 
-            const categoryTitle = document.createElement('h3');
-            categoryTitle.classList.add('category-title');
-            categoryTitle.setAttribute('id', 'id' + category.id);
+        const categoryTitle = document.createElement('h3');
+        categoryTitle.classList.add('category-title');
+        categoryTitle.setAttribute('id', 'id' + category.id);
 
-            const categoryTitleText = document.createTextNode(category.name);
-            categoryTitle.appendChild(categoryTitleText);
+        const categoryTitleText = document.createTextNode(category.name);
+        categoryTitle.appendChild(categoryTitleText);
 
-            // Evento de clic para cambiar el hash de la URL
-            categoryTitle.addEventListener('click', () => {
-                location.hash = `#category=${category.id}-${encodeURIComponent(category.name)}`;
-            });
-
-            categoryContainer.appendChild(categoryTitle);
-            container.appendChild(categoryContainer);
-        } else {
-            console.warn('Se encontró una categoría inválida:', category);
+        categoryTitle.addEventListener('click', () => {
+            location.hash = `#category=${category.id}-${encodeURIComponent(category.name)}`;
+        });
+        if (lazyLoad) {
+            lazeLoader.observe(categoryContainer);
         }
+
+        categoryContainer.appendChild(categoryTitle);
+        container.appendChild(categoryContainer);
     });
 }
 
+
 // Función que recibe las películas y las muestra en la interfaz
-function createCategory(movies, container, categoryId = null, lazyLoad = true) {
-    container.innerHTML = ''; // Limpiar el contenedor antes de agregar nuevos elementos
+function createCategory(movies, container, categoryId = null, {
+    lazyLoad = false,
+    clean = true,
+} = {},
+) {
+    if (clean) {
+        container.innerHTML = '';
+    }
+
 
     movies.forEach((movie) => {
         // Verifica si hay un categoryId o si debe cargar todas las películas
@@ -153,7 +154,6 @@ function createCategory(movies, container, categoryId = null, lazyLoad = true) {
 }
 
 
-
 function geneMovieTitles(categoryId) {
     setPageConfig(pageConfigs.categoriesPage); // Configurar la página de categorías
     getMoviesByCategory(categoryId); // Convertir id a número entero
@@ -171,13 +171,12 @@ function createCategory(
     {
         lazyLoad = false,
         clean = true,
-    } = {},
+    } = {}
 ) {
     if (clean) {
         container.innerHTML = '';
     }
 
-    // Iterar sobre las películas y crear las tarjetas
     movies.forEach(movie => {
         const movieCard = document.createElement('div');
         movieCard.classList.add('movie-card');
@@ -186,24 +185,21 @@ function createCategory(
         const movieImg = document.createElement('img');
         movieImg.setAttribute('alt', movie.title);
         movieImg.setAttribute('title', movie.title);
+
         const imageUrl = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
 
-        //Evento para manejar Errores de mis imagenes
+        // Manejo de errores en la carga de imágenes
         movieImg.addEventListener('error', () => {
             movieImg.setAttribute(
                 'src',
                 'https://www.1stopdesign.com/wp-content/uploads/2024/04/1_hFwwQAW45673VGKrMPE2qQ-300x225.png'
-            )
+            );
         });
-        // Asegurar que la imagen tenga un tamaño auto (manteniendo relación de aspecto)
-        movieImg.style.width = '40vw'; // Ajusta el ancho de la imagen al contenedor
-        movieImg.style.height = '40vh'; // Mantiene la proporción de la imagen
 
-        // Si lazyLoad es true, utilizar data-img para la carga diferida
+        // Aplicar lazy loading
         if (lazyLoad) {
             movieImg.setAttribute('data-img', imageUrl);
-            // Si se utiliza lazy loading, se observa la imagen
-            lazeLoader.observe(movieImg);
+            lazeLoader.observe(movieImg); // Observar para lazy loading
         } else {
             movieImg.setAttribute('src', imageUrl);
         }
@@ -224,6 +220,7 @@ function createCategory(
         container.appendChild(movieCard);
     });
 }
+
 
 
 // Mapeo de categorías con caracteres especiales

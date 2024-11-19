@@ -65,29 +65,39 @@ const getCategoriesPreview = async () => {
     }
     // Llamar a la función para listar categorias peliculas
 
-    renderCategories(categories, categoriesPreviewList);
+    renderCategories(categories, categoriesPreviewList, true);
 
 };
 
 
 // Función para obtener las películas por categoría
 const getMoviesByCategory = async (id) => {
-    const categoryId = parseInt(id);
+    try {
+        const categoryId = parseInt(id);
 
+        // Obtener películas por categoría
+        const movies = await fetchMoviesByCategory(categoryId); // Llamar la API para obtener las películas
 
-    // Obtener películas por categoría
-    const movies = await fetchMoviesByCategory(categoryId);  // Llamar la API para obtener las películas
+        console.log(movies); // Verificar la estructura de los datos
 
-    console.log(movies);  // Verificar la estructura de los datos
+        const genericSection = document.querySelector('#genericList');
+        if (!genericSection) {
+            console.error('Contenedor no encontrado para mostrar las películas');
+            return;
+        }
 
-    const genericSection = document.querySelector('#genericList');
-    if (!genericSection) {
-        console.error('Contenedor no encontrado para mostrar las películas');
-        return;
+        // Renderizar las películas con lazy loading habilitado
+        createCategory(
+            movies,
+            genericSection,
+            {
+                lazyLoad: true,
+                clean: true
+            }
+        );
+    } catch (error) {
+        console.error('Error al obtener películas por categoría:', error);
     }
-
-    // Llamar a la función de renderizado y pasar el id de categoría
-    createCategory(movies, genericSection, categoryId);  // Pasar categoryId correctamente
 };
 
 
@@ -102,9 +112,16 @@ const getMoviesSeachAll = async (query) => {
             return;
         }
 
-        // Renderiza las películas
+        // Renderiza las películas con lazy loading
         if (moviesSearch.length > 0) {
-            createCategory(moviesSearch, genericSection, query);
+            createCategory(
+                moviesSearch,
+                genericSection,
+                {
+                    lazyLoad: true,
+                    clean: true
+                }
+            );
         } else {
             console.warn('No se encontraron películas para el término:', query);
             genericSection.innerHTML = `<p>No se encontraron resultados para "${query}".</p>`;
@@ -113,6 +130,7 @@ const getMoviesSeachAll = async (query) => {
         console.error('Error al obtener películas de búsqueda:', error);
     }
 };
+
 
 
 
@@ -161,7 +179,7 @@ const getRelateMoviesId = async (id) => {
     try {
         const movieRelated = await fetchGetMoviesRelated(id);  // Wait for the promise to resolve
         if (Array.isArray(movieRelated)) {
-            createMovies(movieRelated, relatedMoviesContainer);
+            createMovies(movieRelated, relatedMoviesContainer, true);
         } else {
             console.warn('No related movies found or an error occurred.');
         }
