@@ -245,6 +245,73 @@ function createCategory(
 
 
 
+
+
+
+function renderMovies(movies, container, { lazyLoad = false, clean = true } = {}) {
+    if (clean) {
+        container.innerHTML = ''; // Limpia el contenedor si es necesario
+    }
+
+    const likedMovies = likedMoviesList(); // Lista actualizada de favoritos
+
+    movies.forEach(movie => {
+        const movieContainer = document.createElement('div');
+        movieContainer.classList.add('movie-container');
+
+        if (movie.poster_path) {
+            const movieImg = document.createElement('img');
+            movieImg.classList.add('movie-img');
+            const imageUrl = `https://image.tmdb.org/t/p/w500/${movie.poster_path}`;
+
+            if (lazyLoad) {
+                movieImg.setAttribute('data-img', imageUrl);
+                lazeLoader.observe(movieImg); // Observa la imagen para carga diferida
+            } else {
+                movieImg.setAttribute('src', imageUrl);
+            }
+
+            movieImg.setAttribute('alt', movie.title);
+            movieContainer.appendChild(movieImg);
+        }
+
+        // Botón de "like"
+        const movieBtn = document.createElement('button');
+        movieBtn.classList.add('movie-btn');
+
+        // Si la película está marcada como favorita, agrega la clase
+        if (likedMovies[movie.id]) {
+            movieBtn.classList.add('movie-btn--liked');
+        }
+
+        // Evento exclusivo para gestionar el estado de "like"
+        movieBtn.addEventListener('click', (event) => {
+            event.stopPropagation(); // Detener propagación para evitar conflictos con otros eventos
+            movieBtn.classList.toggle('movie-btn--liked');
+            likeMovie(movie); // Actualizar favoritos
+
+            // Si es un contenedor de favoritos, elimina el elemento si se desmarca
+            if (!likedMoviesList()[movie.id] && container.id === 'liked-movies-container') {
+                movieContainer.remove(); // Elimina del DOM
+            }
+        });
+
+        movieContainer.appendChild(movieBtn);
+
+        // Agregar el contenedor al contenedor principal
+        container.appendChild(movieContainer);
+    });
+
+    // Mostrar mensaje si no hay películas
+    if (movies.length === 0) {
+        container.innerHTML = `<p>No hay películas para mostrar.</p>`;
+    }
+}
+
+
+
+
+
 // Mapeo de categorías con caracteres especiales
 const categoriesToReplace = {
     "TV%20Movie": "TV Movie",

@@ -15,18 +15,18 @@ const elements = {
     footerNone,
     logoHeader,
     titleTrending,
-
+    MovieLiked,
 };
 // Obje elementos o contenedores visibles en cada router
 const pageConfigs = {
+
     homePage: {
         categoriesPreviewList: { inactive: false },
         headerSection: { background: '' },
         headerTitle: { inactive: true },
         titleCategory: { inactive: false },
         headerCategoryTitle: { inactive: true },
-
-
+        MovieLiked: { inactive: false },
         searchForm: { inactive: false },
         arrowBodySearch: { inactive: true },
         trendingPreviewSection: { inactive: false },
@@ -45,9 +45,7 @@ const pageConfigs = {
         searchForm: { inactive: true },
         trendingPreviewSection: { inactive: true },
         categoriesPreviewSection: { inactive: false },
-        LikedMoviesContainerArticle: { inactive: true },
-        LikedMoviesContainerArticle: { inactive: true },
-
+        MovieLiked: { inactive: true },
         genericSection: { inactive: false },
         movieDetailSection: { inactive: true },
         footerNone: { inactive: false },
@@ -60,7 +58,7 @@ const pageConfigs = {
         arrowBodySearch: { inactive: false, classList: 'header-arrow--white' },
         headerTitle: { inactive: true },
         headerCategoryTitle: { inactive: false },
-
+        MovieLiked: { inactive: true },
         searchForm: { inactive: true },
         trendingPreviewSection: { inactive: true },
         categoriesPreviewSection: { inactive: true },
@@ -75,9 +73,7 @@ const pageConfigs = {
         arrowBodySearch: { inactive: false, classList: 'header-arrowContainer--purple' }, headerTitle: { inactive: true },
         headerTitle: { inactive: false },
         headerCategoryTitle: { inactive: true },
-        LikedMoviesContainerArticle: { inactive: true },
-        LikedMoviesContainerArticle: { inactive: true },
-
+        MovieLiked: { inactive: true },
         searchForm: { inactive: false },
         trendingPreviewSection: { inactive: true },
         categoriesPreviewSection: { inactive: false },
@@ -93,8 +89,7 @@ const pageConfigs = {
         arrowBodySearch: { inactive: false, classList: 'header-arrowContainer--purple' }, headerTitle: { inactive: true },
         searchForm: { inactive: false },
         trendingPreviewSection: { inactive: true },
-        LikedMoviesContainerArticle: { inactive: true },
-        LikedMoviesContainerArticle: { inactive: true },
+        MovieLiked: { inactive: true },
         titleTrending: { inactive: false },
         categoriesPreviewSection: { inactive: true },
         genericSection: { inactive: false },
