@@ -121,7 +121,7 @@ button {
 .movie-card{
   display: flex;
   flex-direction: column;
-  height: 55vh;
+  height: 35vh;
   width: 40vw;
 }
 .movie-card img{
@@ -299,7 +299,7 @@ button {
 }
 
 .trendingPreview-movieList {
-  overflow-y: auto;
+  overflow-y: hidden;
   white-space: nowrap;
   height: 241px;
   padding-bottom: 16px;
@@ -327,7 +327,6 @@ button {
   display: inline-block;
   margin-right: 8px;
   position: relative;
-  overflow-x: auto;
   transition: transform 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
   will-change: transform;
   transform-style: preserve-3d; /* Previene que el zoom afecte otras tarjetas */
@@ -340,6 +339,10 @@ button {
   object-fit: cover;
   border-radius: 8px;
   transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.trendingPreview-movieList::-webkit-scrollbar {
+  display: none; /* Oculta la barra de desplazamiento para mejor estética */
 }
 
 /* Estilo del botón de play */
@@ -410,7 +413,7 @@ button {
   margin-bottom: 8px;
   cursor: pointer;
   white-space: nowrap;
-  overflow: hidden;
+  overflow-x: hidden;
   text-overflow: ellipsis;
 }
 
