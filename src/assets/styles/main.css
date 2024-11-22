@@ -42,7 +42,6 @@
   --font-weight-text2: 500;
 }
 
-
 body {
   background-color: var(--purple-light-1);
   color: var(--purple-dark-2);
@@ -121,8 +120,7 @@ button {
 .movie-card{
   display: flex;
   flex-direction: column;
-  height: 35vh;
-  width: 40vw;
+  width: 40%;
 }
 .movie-card img{
   border-radius: 8px;
@@ -141,7 +139,10 @@ button {
   background-color: var(--purple-light-2);
 
 }
+.movie-btn-details{
+display: none;
 
+}
 .movie-btn::before{
   content: '🤍';
 }
@@ -175,7 +176,7 @@ button {
 }
 
 .header-container--long {
-
+  overflow: auto;
   background-image: url();
   background: linear-gradient(180deg, rgba(0, 0, 0, 0.35) 19.27%, rgba(0, 0, 0, 0) 29.17%);
   background-size: cover !important;
@@ -299,9 +300,9 @@ button {
 }
 
 .trendingPreview-movieList {
-  overflow-y: hidden;
+  overflow-x: auto;
   white-space: nowrap;
-  height: 241px;
+  height: auto;
   padding-bottom: 16px;
   scroll-behavior: smooth;
 }
@@ -356,7 +357,7 @@ button {
   color: white;
   border: none;
   width: 100%;
-  height: 99%;
+  height: 100%;
   padding: 15px;
   font-size: 20px;
   border-radius: 4%;
@@ -461,6 +462,7 @@ button {
   align-items: flex-end;
   justify-content: space-around;
   flex-wrap: wrap;
+  align-items: flex-start;
   padding: 42px 24px;
   gap:20px;
 }
@@ -477,9 +479,10 @@ button {
 
 /* Movie Detail */
 .movieDetail-container {
+  overflow:scroll;
   border-top-left-radius: 16px;
   border-top-right-radius: 16px;
-  padding: 32px 24px;
+  padding: 32px 10px;
   margin-top: 403px;
   z-index: 1;
   position: absolute;
@@ -488,18 +491,16 @@ button {
 
 .movieDetail-title {
   display: inline-block;
-  width: 80%;
+  width: 70%;
   margin: 0 0 16px 0;
   padding: 0;
 }
 
 
-
-
 .movieDetail-score {
   display: inline-block;
   text-align: right;
-  width: 18%;
+  width: 18vw;
   font-weight: var(--font-weight-title2);
 }
 .movieDetail-score::before {
@@ -522,26 +523,26 @@ button {
 }
 
 .relatedMovies-scrollContainer {
-  position: absolute;
-  overflow-x: scroll;
-  overflow-y: hidden;
+  display: flex;
+  overflow-x: auto;
   white-space: nowrap;
   width: calc(100vw - 24px);
+  padding: 5px 4px;
   padding-bottom: 16px;
 }
 
-.relatedMovies-scrollContainer .movie-container {
+ .movie-container {
   display: inline-block;
   margin-right: 8px;
 }
 
 .relatedMovies-scrollContainer .movie-img {
-  width: 125px;
   min-width: 125px;
   max-width: 125px;
   height: 187.5px;
   min-height: 187.5px;
   max-height: 187.5px;
+  border-radius: 10px;
 }
   
 
@@ -764,4 +765,13 @@ footer {
   border-radius: 10px; /* Bordes redondeados para las imágenes */
   object-fit: cover; /* Ajusta la imagen dentro del contenedor */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra sutil para las imágenes */
+}
+.error-img {
+display: flex; 
+
+width: 250px; /* Ajustar al ancho del contenedor */
+  height: 240px; /* Mantener la proporción de la imagen */
+  object-fit: contain; /* Asegurar que la imagen se adapte bien */
+  border: 2px solid var(--purple-dark-2); /* Opcional: agregar un borde */
+  background-color: var(--purple-light-1); /* Opcional: fondo para mejor visualización */
 }

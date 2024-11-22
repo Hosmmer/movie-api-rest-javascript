@@ -141,25 +141,24 @@ async function getPaginatedTrendingMovies() {
 // Función para obtener películas de tendencia
 async function dataMoviesByDetails(id) {
     try {
-        const response = await api.get('movie/' + id); // Asegúrate de que `api` está correctamente configurado
-        const movie = response.data; // Los detalles de la película están en `data`
-        return movie;  // Devuelve el objeto de la película
+        const response = await api.get('movie/' + id); // Llamada a la API
+        return response.data; // Devolver los datos de la película
     } catch (error) {
-        console.error('Error al obtener los detalles de la película:', error);
+        console.error('Error al obtener los detalles de la película desde la API:', error);
         return null;
     }
 }
-
 async function dataMoviesRelated(id) {
     try {
-        const { data } = await api.get(`movie/${id}/recommendations`);
+        const { data } = await api.get(`movie/${id}/recommendations`); // Llamada a la API
         const relatedMovies = data.results;
-        return relatedMovies || [];  // Ensure an empty array if no results
+        return Array.isArray(relatedMovies) ? relatedMovies : []; // Asegurarse de que sea un array
     } catch (error) {
-        console.error('Error fetching related movies:', error);
-        return [];  // Return an empty array if there is an error
+        console.error('Error al obtener películas relacionadas:', error);
+        return []; // Retornar un array vacío en caso de error
     }
 }
+
 
 //Funcion para crear peliculas que me gustan
 

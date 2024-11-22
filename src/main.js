@@ -195,7 +195,7 @@ const getRelateMoviesId = async (id) => {
     try {
         const movieRelated = await dataMoviesRelated(id);  // Wait for the promise to resolve
         if (Array.isArray(movieRelated)) {
-            createMovies(movieRelated, relatedMoviesContainer, true);
+            createMoviesDetails(movieRelated, relatedMoviesContainer, true);
         } else {
             console.warn('No related movies found or an error occurred.');
         }

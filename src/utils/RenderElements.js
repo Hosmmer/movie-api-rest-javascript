@@ -214,8 +214,10 @@ function createCategory(
         movieImg.addEventListener('error', () => {
             movieImg.setAttribute(
                 'src',
-                'https://www.1stopdesign.com/wp-content/uploads/2024/04/1_hFwwQAW45673VGKrMPE2qQ-300x225.png'
+                'https://st2.depositphotos.com/5572142/9546/i/450/depositphotos_95460466-stock-photo-abstract-background-404-connection-error.jpg'
             );
+            movieImg.classList.add('error-img'); // Agregar una clase para el estilo
+
         });
 
         // Aplicar lazy loading
@@ -352,4 +354,56 @@ function titleTendencias() {
 
     // Insertar el título al inicio
     genericSection.appendChild(titleElement);
+}
+
+
+function createMoviesDetails(movies, container, lazyLoad = false) {
+    container.innerHTML = ''; // Limpiar el contenedor antes de agregar los nuevos elementos
+
+    const likedMovies = likedMoviesList(); // Obtener favoritos actuales
+    movies.forEach(movie => {
+        const movieContainer = document.createElement('div');
+        movieContainer.classList.add('movie-container');
+
+        // Evento para ir al detalle de la película
+        movieContainer.addEventListener('click', (event) => {
+            // Verificar que no se hizo clic en un botón dentro del contenedor
+            if (!event.target.classList.contains('movie-btn')) {
+                location.hash = '#movie=' + movie.id; // Cambia el hash con el ID de la película
+                console.log('Película seleccionada:', movie.id);
+            }
+        });
+
+        const movieImg = document.createElement('img');
+        movieImg.classList.add('movie-img');
+        movieImg.setAttribute(lazyLoad ? 'data-img' : 'src', 'https://image.tmdb.org/t/p/w500/' + movie.poster_path);
+        movieImg.setAttribute('alt', movie.title);
+
+
+
+        const movieBtn = document.createElement('button');
+        movieBtn.classList.add('movie-btn-details');
+
+        // Verificar si la película ya está marcada como favorita
+        if (likedMovies[movie.id]) {
+            movieBtn.classList.add('movie-btn--liked'); // Marcar como favorita
+        }
+
+        // Evento para dar "like" a la película
+        movieBtn.addEventListener('click', (event) => {
+            event.stopPropagation(); // Evita que el clic en el botón afecte al contenedor
+            movieBtn.classList.toggle('movie-btn--liked');
+            likeMovie(movie);
+            console.log(`Película con ID ${movie.id} marcada como favorita.`);
+        });
+
+        if (lazyLoad) {
+            lazeLoader.observe(movieImg);
+        }
+
+        movieContainer.appendChild(movieImg);
+        movieContainer.appendChild(movieBtn);
+
+        container.appendChild(movieContainer);
+    });
 }
